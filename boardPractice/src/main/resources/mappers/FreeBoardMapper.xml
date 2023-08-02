@@ -51,7 +51,6 @@
 		Select count(*)
 		from freeboard
 		<include refid="search" />
-		<include refid="myPage" />
 	</select>
 	
 	<select id="getContent" resultType ="board">

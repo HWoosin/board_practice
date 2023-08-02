@@ -6,9 +6,9 @@
 
 	<settings>
 		<!-- 
-			MyBatis에서는 쿼리에 매핑되는 파라미터에 null이 들어가면 에러가 발생합니다.
+			MyBatis에서는 쿼리에 매핑되는 파라미터에 null이 들어가면 에러가 발생한다.
 			value에 전달할 값이 null일 경우에 처리할 값을 지정하면
-			그 값으로 데이터베이스에 값이 세팅됩니다.
+			그 값으로 데이터베이스에 값이 세팅된다.
 		 -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		

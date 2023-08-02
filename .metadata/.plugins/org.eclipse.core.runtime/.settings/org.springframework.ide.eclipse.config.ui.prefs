@@ -1,0 +1,3 @@
+//com.springsource.config.ui.prefs.activePageIndex\:/boardPractice/src/main/webapp/WEB-INF/config/db-config.xml=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<activePage index\="4"/>
+//com.springsource.config.ui.prefs.activePageIndex\:/boardPractice/src/main/webapp/WEB-INF/config/servlet-config.xml=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<activePage id\="com.springsource.sts.config.ui.editors.beans" index\="3" kind\="formPage" uri\="http\://www.springframework.org/schema/beans"/>
+eclipse.preferences.version=1
