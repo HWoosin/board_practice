@@ -26,9 +26,9 @@ public class FreeBoardVO {
 	private String title;
 	private String writer;
 	private String content;
+	private String pw;
 	private LocalDateTime regDate;
 	private LocalDateTime updateDate;
 	
-//	//하나의 게시물이 몇개의 댓글을 포함하는 지 
-//	private int replyCnt;
+
 }

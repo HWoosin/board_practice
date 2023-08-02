@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 
 	<%@ include file="../include/header.jsp" %>
 
@@ -13,8 +12,7 @@
                         
                         <form action="${pageContext.request.contextPath}/freeboard/update" method="post" name="updateForm">   
                             <div class="form-group">
-                                <label>번호</label>
-                                <input class="form-control" name="bno" value="${article.bno}" readonly>
+                                <input class="form-control" name="bno" value="${article.bno}" type="hidden">
                             </div>
                             <div class="form-group">
                                 <label>작성자</label>
@@ -22,12 +20,17 @@
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" name="title" value="${article.title}">
+                                <input class="form-control " name="title" value="${article.title}" oninput="handleInputLength(this, 100)">
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <textarea class="form-control" rows="10" name="content">${article.content}</textarea>
+                                <textarea class="form-control" rows="10" name="content" oninput="handleInputLength(this, 1000)">${article.content}</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>비밀번호</label>
+                                <input class="form-control" name="pw" value="${article.pw}">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -62,10 +65,21 @@
                 $form.content.focus();
                 return;
             }
+            else if($form.pw.value === ''){
+                alert('비밀번호는 필수 항목');
+                $form.content.focus();
+                return;
+            }
             else{
                 $form.submit();
             }
         }
+        
+        function handleInputLength(el, max) {
+      	  if(el.value.length > max) {
+      	    el.value = el.value.substr(0, max);
+      	  }
+      	}
 
         //삭제 버튼 이벤트 처리
         document.getElementById('delBtn').onclick = (e) =>{

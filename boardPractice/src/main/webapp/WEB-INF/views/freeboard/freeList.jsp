@@ -1,5 +1,4 @@
-﻿﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
@@ -28,23 +27,19 @@
 		                            <option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected': ''}>제목+내용</option>
 		                       </select>
 		                    </div>
-				</form>
-                   
+				</form>              
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>번호</th>
                                 <th class="board-title">제목</th>
-                                <th>작성자</th>
-                                <th>등록일</th>
-                                <th>수정일</th>
+                                <th class="board-writer">작성자</th>
+                                <th class="board-date">등록일</th>
                             </tr>
                         </thead>
                         <tbody>
                         
                             <c:forEach var="vo" items="${boardList}">
                             	<tr>
-                            		<td>${vo.bno}</td>
 	                            	<td>
 	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">${vo.title}</a>
 
@@ -52,12 +47,9 @@
 	                            	<td>${vo.writer}</td>
 	                            	<td>
 	                            		<fmt:parseDate value="${vo.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
-	                            		<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일 HH시 mm분" />
+	                            		<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일" />
 	                            	</td>
-	                            	<td>
-	                            		<fmt:parseDate value="${vo.updateDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedUpdateTime" type="both" />
-	                            		<fmt:formatDate value="${parsedUpdateTime}" pattern="yyyy년 MM월 dd일 HH시 mm분" />
-	                            	</td>
+	                            	
                             	</tr>
                             </c:forEach>
                         </tbody>

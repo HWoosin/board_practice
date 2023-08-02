@@ -36,8 +36,8 @@
 	 
 	<insert id="regist">
 		INSERT INTO freeboard
-		(title, writer, content)
-		VALUES(#{title}, #{writer}, #{content})
+		(title, writer, content, pw)
+		VALUES(#{title}, #{writer}, #{content}, #{pw})
 	</insert>
 	
 	<select id="getList" resultType ="board">
@@ -55,11 +55,16 @@
 	
 	<select id="getContent" resultType ="board">
 		Select * from freeboard
+		Where bno = #{bno} and pw = #{pw}
+	</select>
+	
+	<select id="getDetail" resultType ="board">
+		Select * from freeboard
 		Where bno = #{bno}
 	</select>
 	
 	<update id="update">
-		Update freeboard set title = #{title}, content = #{content}, update_date = current_timestamp
+		Update freeboard set title = #{title}, content = #{content}, pw = #{pw}
 		where bno = #{bno}
 	</update>
 	

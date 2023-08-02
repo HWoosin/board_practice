@@ -2,6 +2,8 @@ package com.spring.myweb.freeboard.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.myweb.command.FreeBoardVO;
 import com.spring.myweb.util.PageVO;
 
@@ -17,7 +19,10 @@ public interface IFreeBoardMapper {
 		int getTotal(PageVO vo);
 		
 		//상세보기
-		FreeBoardVO getContent(int bno);
+		FreeBoardVO getDetail(int bno);
+		
+		//글쓴이 확인
+		int getContent(@Param("bno")int bno,  @Param("pw")String pw);
 		
 		//수정
 		void update(FreeBoardVO vo);

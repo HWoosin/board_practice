@@ -17,7 +17,10 @@ public interface IFreeBoardService {
 	int getTotal(PageVO vo);
 	
 	//상세보기
-	FreeBoardVO getContent(int bno);
+	FreeBoardVO getDetail(int bno);
+	
+	//글쓴이 확인
+	int getContent(int bno, String pw);
 	
 	//수정
 	void update(FreeBoardVO vo);

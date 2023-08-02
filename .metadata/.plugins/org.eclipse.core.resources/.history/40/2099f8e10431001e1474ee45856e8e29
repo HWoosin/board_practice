@@ -1,0 +1,60 @@
+﻿﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+	<%@ include file="../include/header.jsp" %>
+    <section>
+       <div class="container">
+            <div class="row">
+                <div class="col-xs-12 content-wrap">
+                    <div class="titlebox">
+                        <p>자유게시판</p>
+                    </div>
+                    
+                     <form action="${pageContext.request.contextPath}/freeboard/regist" method="post" name="registForm">   
+                            <div class="form-group">
+                                <input class="form-control" name="bno" value="${article.bno}" type="hidden">
+                            </div>
+                            <div class="form-group">
+                                <label>작성자</label>
+                                <input class="form-control" name="writer" >
+                            </div>    
+                            <div class="form-group">
+                                <label>제목</label>
+                                <input class="form-control " name="title" >
+                            </div>
+
+                            <div class="form-group">
+                                <label>내용</label>
+                                <textarea class="form-control" rows="10" name="content"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>비밀번호</label>
+                                <input class="form-control input-sm" name="password">
+                            </div>
+
+                            <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
+                            <button type="button" id="registBtn" class="btn btn-primary">등록</button>
+
+                    </form>
+                    
+                </div>
+            </div>    
+       </div>
+    </section>
+    
+    <%@ include file="../include/footer.jsp" %>
+    
+    <script>
+	    const $form = document.registForm;
+	
+	    //등록 버튼 이벤트 처리
+	    document.getElementById('registButton').onclick = function() {
+		    if ($form.checkValidity()) {
+		        $form.submit();
+		    } else {
+		        alert('필수 항목을 입력하세요.');
+		    }
+		};
+    </script>
+  

@@ -322,18 +322,28 @@ section {
 
 /*제목에 클래스를 줘서 강제로 크기 고정*/
 .board-title {
-	width: 300px;
+	width: 600px;
+	text-align: center;
+}
+.board-writer {
+	width: 200px;
+	text-align: center;
+}
+.board-date {
+	width: 200px;
+	text-align: center;
 }
 /*th의 순차적 접근 색상변경 */
 .table-bordered>thead>tr>th {
 	background-color: #E7F2F9;
 	color: #003366;
 }
-
 /*테이블 안에 a태그에 순차적 접근 */
 .table-bordered>tbody>tr>td>a, .table-bordered>tbody>tr>td>a:hover {
 	color: black;
+	
 }
+
 
 .pagination {
 	margin: 0; /*페이지 네이션의 기본 마진 0*/
@@ -413,6 +423,20 @@ section {
 	width: 100%; /*최대 100%*/
 	min-height: 80px; /*최대 넓이*/
 	margin-bottom: 10px;
+	
+}
+td {
+    max-width: 150px; /* 최대 너비 지정 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ellipsis{
+	width: 100%;
+	overflow: hidden;
+  	text-overflow: ellipsis;
+  	white-space:nowrap;
 }
 
 .reply-input>.form-control {

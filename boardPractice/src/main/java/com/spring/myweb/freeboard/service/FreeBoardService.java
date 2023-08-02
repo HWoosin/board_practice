@@ -31,8 +31,13 @@ public class FreeBoardService implements IFreeBoardService {
 	}
 	
 	@Override
-	public FreeBoardVO getContent(int bno) {
-		return mapper.getContent(bno);
+	public FreeBoardVO getDetail(int bno) {
+		return mapper.getDetail(bno);
+	}
+	
+	@Override
+	public int getContent(int bno, String pw) {
+		return mapper.getContent(bno, pw);
 	}
 
 	@Override
