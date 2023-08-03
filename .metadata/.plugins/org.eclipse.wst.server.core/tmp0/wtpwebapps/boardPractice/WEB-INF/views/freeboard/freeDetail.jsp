@@ -12,7 +12,7 @@
                     <p>상세보기</p>
                 </div>
 
-                <form action="<c:url value='/freeboard/modify' />" method="post">
+                <form action="${pageContext.request.contextPath}/freeboard/modify" method="post"  name="detailForm">
                     <div>
                         <label>작성일</label>
                             <p>
@@ -54,7 +54,8 @@
 <%@ include file="../include/footer.jsp" %>
 
 <script>
-	let bno = document.getElementById('bno');
+    const $form = document.detailForm;
+	let bno = document.getElementById('bno').value;
 	document.getElementById('updateBtn').onclick = function() {
 		let pw = prompt('비밀번호를 입력하세요');
 		
@@ -74,9 +75,8 @@
         .then(data => { //텍스트만 뺀 Promise 객체로부터 data전달받음.
             if (data === '1') {
             	console.log(data);
-                location.href = '${pageContext.request.contextPath}/freeboard/modify';
+                $form.submit();
             } else {
-				alert('비밀번호 불일치');
 				console.log(data);
                 
             }

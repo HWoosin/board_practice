@@ -20,7 +20,7 @@ public interface IFreeBoardService {
 	FreeBoardVO getDetail(int bno);
 	
 	//글쓴이 확인
-	int getContent(int bno, String pw);
+	boolean getContent(int bno, String pw);
 	
 	//수정
 	void update(FreeBoardVO vo);

@@ -28,7 +28,6 @@ public class FreeBoardVO {
 	private String content;
 	private String pw;
 	private LocalDateTime regDate;
-	private LocalDateTime updateDate;
 	
 
 }

@@ -53,8 +53,8 @@
 		<include refid="search" />
 	</select>
 	
-	<select id="getContent" resultType ="board">
-		Select * from freeboard
+	<select id="getContent" resultType ="int">
+		Select count(*) from freeboard
 		Where bno = #{bno} and pw = #{pw}
 	</select>
 	

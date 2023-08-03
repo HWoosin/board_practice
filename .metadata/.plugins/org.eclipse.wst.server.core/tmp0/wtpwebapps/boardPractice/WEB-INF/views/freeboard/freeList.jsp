@@ -16,16 +16,17 @@
                     <hr>
                     
                     <!--form select를 가져온다 -->
-		        <form action="<c:url value ='/freeboard/freeList' />">
+		        <form action="${pageContext.request.contextPath}/freeboard/freeList" name="listForm" onSubmit="return false;">
 				    <div class="search-wrap">
-		                       <button type="submit" class="btn btn-info search-btn">검색</button>
-		                       <input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}">
+		                       <button type="submit" id="searchBtn" class="btn btn-info search-btn">검색</button>
+		                       <input type="text" id="searchInput" name="keyword" class="form-control search-input" value="${pc.paging.keyword}">
 		                       <select name="condition" class="form-control search-select">
 		                            <option value="title" ${pc.paging.condition == 'title' ? 'selected': ''}>제목</option>
 		                            <option value="content" ${pc.paging.condition == 'content' ? 'selected': ''}>내용</option>
 		                            <option value="writer" ${pc.paging.condition == 'writer' ? 'selected': ''}>작성자</option>
 		                            <option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected': ''}>제목+내용</option>
 		                       </select>
+                               <p class="totalView">${pc.articleTotalCount}개의 글이 있습니다.</p>
 		                    </div>
 				</form>              
                     <table class="table table-bordered">
@@ -62,6 +63,9 @@
                     <div class="text-center">
                     <hr>
                     <ul id="pagination" class="pagination pagination-sm">
+                        <c:if test="${pc.front}">
+                        	<li><a href="#" data-pagenum="1">맨 처음</a></li>
+                        </c:if>
                     	<c:if test="${pc.prev}">
                         	<li><a href="#" data-pagenum="${pc.beginPage-1}">이전</a></li>
                         </c:if>
@@ -72,6 +76,9 @@
 	                      </c:forEach> 
                         <c:if test="${pc.next}">
                         	<li><a href="#" data-pagenum="${pc.endPage+1}">다음</a></li>
+                        </c:if>
+                        <c:if test="${pc.end}">
+                        	<li><a href="#" data-pagenum="${pc.lastPage}">맨 끝</a></li>
                         </c:if>
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
@@ -116,4 +123,29 @@
                 document.pageForm.submit();
             });
         }
+
+        //검색할때 공백이랑 빈칸 막기
+        const $form = document.listForm;
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        function checkInput(){
+            const searchValue = searchInput.value;
+            if(searchValue === ''){
+                alert('검색어를 작성해주세요.');
+                return;
+            }
+            else if(searchValue.trim() === ''){
+                alert('공백은 검색할 수 없습니다.');
+                return;
+            }
+            else{
+                $form.submit();
+            }
+        }
+
+        searchBtn.onclick = function(){
+            checkInput();
+        }
+
     </script>

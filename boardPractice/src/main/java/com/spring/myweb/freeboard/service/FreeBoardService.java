@@ -36,8 +36,10 @@ public class FreeBoardService implements IFreeBoardService {
 	}
 	
 	@Override
-	public int getContent(int bno, String pw) {
-		return mapper.getContent(bno, pw);
+	public boolean getContent(int bno, String pw) {
+		int result = mapper.getContent(bno, pw);
+		return result == 1;
+
 	}
 
 	@Override
