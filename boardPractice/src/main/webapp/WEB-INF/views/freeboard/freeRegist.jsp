@@ -12,21 +12,21 @@
                          
                             <div class="form-group">
                                 <label>작성자</label>
-                                <input class="form-control" id="writer" name="writer" oninput="handleInputLength(this, 15)">
+                                <input class="form-control" id="writer" name="writer" oninput="handleInputLength(this, 15)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" oninput="handleInputLength(this, 100)">
+                                <input class="form-control" id="title" name="title" oninput="handleInputLength(this, 100)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)"></textarea>
+                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)"></textarea>
                             </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control input-sm" id="pw" name="pw">
+                                <input type="password" class="form-control input-sm" id="pw" name="pw" oninput="handleInputLength(this, 15)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -56,8 +56,34 @@
             const pwInput = document.getElementById('pw');
 
             function hasBadWords(inputText){
-                const badWordsRegex = /(바보|멍청이|똥깨)/gi;
+                const badWordsRegex = /(바보|멍청이|똥깨)/gi;//파일처리하면 더 좋을것같음.
                 return badWordsRegex.test(inputText);
+            }
+
+            function checkWords(inputText){
+                const wordExp = /[%=><&]/gi;
+                if(wordExp.test(inputText.value) ){
+                alert("해당 특수문자는 입력하실 수 없습니다.");
+                inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
+                
+                }
+                //특정문자열(sql예약어의 앞뒤공백포함) 제거
+                var sqlArray = new Array(
+                    //sql 예약어
+                    "OR", "SELECT", "INSERT", "DELETE", "UPDATE", "CREATE", "DROP", "EXEC",
+                    "UNION", "FETCH", "DECLARE", "TRUNCATE"
+                );
+
+                var regex;
+                for (var i = 0; i < sqlArray.length; i++) {
+                    regex = new RegExp(sqlArray[i], "gi");
+
+                    if (regex.test(inputText)) {
+                    alert("\"" + sqlArray[i] + "\"와(과) 같은 특정문자로 검색할 수 없습니다.");
+                    inputText = inputText.replace(regex, "");
+                    return false;
+                    }
+                }
             }
 
             //등록 버튼 이벤트 처리
