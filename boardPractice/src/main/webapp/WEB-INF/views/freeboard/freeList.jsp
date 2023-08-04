@@ -19,7 +19,7 @@
 		        <form action="${pageContext.request.contextPath}/freeboard/freeList" name="listForm" onSubmit="return false;">
 				    <div class="search-wrap">
 		                       <button type="submit" id="searchBtn" class="btn btn-info search-btn">검색</button>
-		                       <input type="text" id="searchInput" name="keyword" class="form-control search-input" value="${pc.paging.keyword}">
+		                       <input type="text" id="searchInput" name="keyword" class="form-control search-input" value="${pc.paging.keyword}"oninput="handleInputLength(this, 100)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
 		                       <select name="condition" class="form-control search-select">
 		                            <option value="title" ${pc.paging.condition == 'title' ? 'selected': ''}>제목</option>
 		                            <option value="content" ${pc.paging.condition == 'content' ? 'selected': ''}>내용</option>
@@ -82,6 +82,7 @@
                         </c:if>
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
+                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList'">목록</button>
                     </div>
 
                     <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
@@ -129,6 +130,11 @@
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
 
+        function hasBadWords(inputText){
+                const badWordsRegex = /(바보|멍청이|똥깨|씨발|개새끼|시발|OR|SELECT|INSERT|DELETE|UPDATE|CREATE|DROP|EXEC|UNION|FETCH|DECLARE|TRUNCATE)/gi;//파일처리하면 더 좋을것같음.
+                return badWordsRegex.test(inputText);
+        }
+
         function checkInput(){
             const searchValue = searchInput.value;
             if(searchValue === ''){
@@ -139,6 +145,11 @@
                 alert('공백은 검색할 수 없습니다.');
                 return;
             }
+            // 욕설이 포함된 경우, sql 문 막기
+            else if (hasBadWords(searchValue)) {
+                        alert('사용할 수 없는 단어가 포함되어 있습니다. 글을 검색할 수 없습니다.');
+                        return;
+            }
             else{
                 $form.submit();
             }
@@ -148,4 +159,24 @@
             checkInput();
         }
 
+        function checkWords(inputText){
+                const wordExp = /[%=><&]/gi;
+                if(wordExp.test(inputText.value) ){
+                alert("해당 특수문자는 입력하실 수 없습니다.");
+                inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
+                
+                }
+            }
+
+        function handleInputLength(el, max) {
+                const trimmedValue = el.value.trim();
+                if(trimmedValue.length > max) {
+                    el.value = el.value.substr(0, max);
+                }
+            }
+
+        //글자 submit 전 trim
+        function trimInput(el) {
+                el.value = el.value.trim();
+            }
     </script>

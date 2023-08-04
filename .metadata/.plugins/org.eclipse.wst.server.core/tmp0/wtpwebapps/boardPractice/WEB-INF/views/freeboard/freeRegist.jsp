@@ -12,11 +12,11 @@
                          
                             <div class="form-group">
                                 <label>작성자</label>
-                                <input class="form-control" id="writer" name="writer" oninput="handleInputLength(this, 15)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input class="form-control" id="writer" name="writer" oninput="handleInputLength(this, 15)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" oninput="handleInputLength(this, 100)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input class="form-control" id="title" name="title" oninput="handleInputLength(this, 100)" onblur="trimInput(this)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <div class="form-group">
@@ -26,7 +26,7 @@
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control input-sm" id="pw" name="pw" oninput="handleInputLength(this, 15)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input type="password" class="form-control input-sm" id="pw" name="pw" oninput="handleInputLength(this, 15)" onblur="trimInput(this)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -56,7 +56,7 @@
             const pwInput = document.getElementById('pw');
 
             function hasBadWords(inputText){
-                const badWordsRegex = /(바보|멍청이|똥깨)/gi;//파일처리하면 더 좋을것같음.
+                const badWordsRegex = /(바보|멍청이|똥깨|씨발|개새끼|시발|OR|SELECT|INSERT|DELETE|UPDATE|CREATE|DROP|EXEC|UNION|FETCH|DECLARE|TRUNCATE)/gi;//파일처리하면 더 좋을것같음.
                 return badWordsRegex.test(inputText);
             }
 
@@ -66,23 +66,6 @@
                 alert("해당 특수문자는 입력하실 수 없습니다.");
                 inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
                 
-                }
-                //특정문자열(sql예약어의 앞뒤공백포함) 제거
-                var sqlArray = new Array(
-                    //sql 예약어
-                    "OR", "SELECT", "INSERT", "DELETE", "UPDATE", "CREATE", "DROP", "EXEC",
-                    "UNION", "FETCH", "DECLARE", "TRUNCATE"
-                );
-                
-                var regex;
-                for (var i = 0; i < sqlArray.length; i++) {
-                    regex = new RegExp(sqlArray[i], "gi");
-
-                    if (regex.test(inputText)) {
-                    alert("\"" + sqlArray[i] + "\"와(과) 같은 특정문자로 검색할 수 없습니다.");
-                    inputText = inputText.replace(regex, "");
-                    return false;
-                    }
                 }
             }
 
@@ -112,7 +95,7 @@
                 }
                 else if(pwValue === ''){
                     alert('비밀번호는 필수 항목');
-                    $form.writer.focus();
+                    $form.pw.focus();
                     return;
                 }
                 // 앞뒤 공백을 제거하고 빈 칸 여부 판단
@@ -136,9 +119,9 @@
                         return;
                         
                     }
-                // 욕설이 포함된 경우
-                else if (hasBadWords(titleValue) || hasBadWords(writerValue) || hasBadWords(contentInput)) {
-                        alert('욕설이 포함되어 있습니다. 글을 등록할 수 없습니다.');
+                // 욕설이 포함된 경우, sql 문 막기
+                else if (hasBadWords(titleValue) || hasBadWords(writerValue) || hasBadWords(contentValue)) {
+                        alert('사용할 수 없는 단어가 포함되어 있습니다. 글을 등록할 수 없습니다.');
                         return;
                     }
                 else{
@@ -149,9 +132,14 @@
             
             //글자수 제한
             function handleInputLength(el, max) {
-                if(el.value.length > max) {
+                const trimmedValue = el.value.trim();
+                if(trimmedValue.length > max) {
                     el.value = el.value.substr(0, max);
                 }
+            }
+            //글자 submit 전 trim
+            function trimInput(el) {
+                el.value = el.value.trim();
             }
 
             // //글 작성 시간제한

@@ -20,17 +20,17 @@
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" value="${article.title}" oninput="handleInputLength(this, 100)">
+                                <input class="form-control" id="title" name="title" value="${article.title}" oninput="handleInputLength(this, 100)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)">${article.content}</textarea>
+                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">${article.content}</textarea>
                             </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control" id="pw" name="pw" value="${article.pw}" oninput="handleInputLength(this, 15)">
+                                <input type="password" class="form-control" id="pw" name="pw" value="${article.pw}" oninput="handleInputLength(this, 15)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -57,9 +57,19 @@
         const pwInput = document.getElementById('pw');
 
         function hasBadWords(inputText){
-            const badWordsRegex = /(바보|멍청이|똥깨)/gi;
-            return badWordsRegex.test(inputText);
-        }
+                const badWordsRegex = /(바보|멍청이|똥깨|씨발|개새끼|시발|OR|SELECT|INSERT|DELETE|UPDATE|CREATE|DROP|EXEC|UNION|FETCH|DECLARE|TRUNCATE)/gi;//파일처리하면 더 좋을것같음.
+                return badWordsRegex.test(inputText);
+            }
+
+            function checkWords(inputText){
+                const wordExp = /[%=><&]/gi;
+                if(wordExp.test(inputText.value) ){
+                alert("해당 특수문자는 입력하실 수 없습니다.");
+                inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
+                
+                }
+            }
+            
 
         const $form = document.updateForm;
 
@@ -83,7 +93,7 @@
             }
             else if($form.pw.value === ''){
                 alert('비밀번호는 필수 항목');
-                $form.content.focus();
+                $form.pw.focus();
                 return;
             }
             // 앞뒤 공백을 제거하고 빈 칸 여부 판단
@@ -107,9 +117,9 @@
     				return;
     				
             	  }
-            // 욕설이 포함된 경우
-            else if (hasBadWords(titleValue) || hasBadWords(writerValue) || hasBadWords(contentInput)) {
-                    alert('욕설이 포함되어 있습니다. 글을 등록할 수 없습니다.');
+            // 욕설이 포함된 경우, sql 문 막기
+            else if (hasBadWords(titleValue) || hasBadWords(writerValue) || hasBadWords(contentValue)) {
+                    alert('사용할 수 없는 단어가 포함되어 있습니다. 글을 등록할 수 없습니다.');
                     return;
                 }
             else{
@@ -123,6 +133,10 @@
       	    el.value = el.value.substr(0, max);
       	  }
       	}
+        //글자 submit 전 trim
+        function trimInput(el) {
+                el.value = el.value.trim();
+        }
 
         //삭제 버튼 이벤트 처리
         document.getElementById('delBtn').onclick = (e) =>{
