@@ -19,7 +19,7 @@
 		        <form action="${pageContext.request.contextPath}/freeboard/freeList" name="listForm" onSubmit="return false;">
 				    <div class="search-wrap">
 		                       <button type="submit" id="searchBtn" class="btn btn-info search-btn">검색</button>
-		                       <input type="text" id="searchInput" name="keyword" class="form-control search-input" value="${pc.paging.keyword}"oninput="handleInputLength(this, 100)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+		                       <input type="text" id="searchInput" name="keyword" class="form-control search-input" value="${pc.paging.keyword}"oninput="handleInputLength(this, 100)" onblur="trimInput(this)">
 		                       <select name="condition" class="form-control search-select">
 		                            <option value="title" ${pc.paging.condition == 'title' ? 'selected': ''}>제목</option>
 		                            <option value="content" ${pc.paging.condition == 'content' ? 'selected': ''}>내용</option>
@@ -38,7 +38,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                        
                             <c:forEach var="vo" items="${boardList}">
                             	<tr>
 	                            	<td>
@@ -159,19 +158,21 @@
             checkInput();
         }
 
-        function checkWords(inputText){
-                const wordExp = /[%=><&]/gi;
-                if(wordExp.test(inputText.value) ){
-                alert("해당 특수문자는 입력하실 수 없습니다.");
-                inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
+        // function checkWords(inputText){
+        //         const wordExp = /[%=><&]/gi;
+        //         if(wordExp.test(inputText.value) ){
+        //         alert("해당 특수문자는 입력하실 수 없습니다.");
+        //         inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
                 
-                }
-            }
+        //         }
+        //     }
 
+        //글자수 제한
         function handleInputLength(el, max) {
                 const trimmedValue = el.value.trim();
                 if(trimmedValue.length > max) {
                     el.value = el.value.substr(0, max);
+                    alert('사용할 수 있는 글자 수를 넘었습니다.')
                 }
             }
 

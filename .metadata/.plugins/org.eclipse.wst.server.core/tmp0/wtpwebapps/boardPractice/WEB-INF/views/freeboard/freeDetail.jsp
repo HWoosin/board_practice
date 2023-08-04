@@ -31,12 +31,15 @@
                     </div>
                     <div class="form-group">
                         <label>제목</label>
-                        <input class="form-control ellipsis" name="title" value="${article.title}" readonly>
+                        <input class="form-control ellipsis" id="title" name="title" value="${article.title}" readonly onclick="showTextArea()">
+                        <!-- <div class="form-group">
+                        <textarea class="form-control" id="titleBox" name="content" style="display: none;" readonly onclick="showInputArea()"></textarea>
+                    </div> -->
                     </div>
 
                     <div class="form-group">
                         <label>내용</label>
-                        <textarea class="form-control" rows="10" name="content" readonly>${article.content}</textarea>
+                        <textarea class="form-control" id="content" rows="10" name="content" readonly>${article.content}</textarea>
                     </div>
 
                     
@@ -54,16 +57,51 @@
 <%@ include file="../include/footer.jsp" %>
 
 <script>
+    //입력에 따라 textarea 변함
+    const contentTextarea = document.getElementById('content');
+        function adjustTextareaHeight() {
+            contentTextarea.style.height = 'auto';
+            contentTextarea.style.height = contentTextarea.scrollHeight + 'px';
+        }
+
+        contentTextarea.addEventListener('input', adjustTextareaHeight);
+        window.addEventListener('load', adjustTextareaHeight);
+
+        // const titleInput = document.getElementById('title');
+        // function showTextArea() {
+        //     const textarea = document.getElementById('titleBox');
+        //     textarea.style.display = 'block';
+        //     textarea.value = '';
+        //     textarea.value = titleInput.value;
+        //     textarea.style.height = 'auto';
+        //     textarea.style.height = textarea.scrollHeight + 'px';
+        //     titleInput.style.display = 'none';
+        // }
+        // function showInputArea() {
+        //     const textarea = document.getElementById('titleBox');
+        //     textarea.style.display = 'none';
+        //     document.getElementById('title').style.display = 'block';
+        // }
+
+        const titleInput = document.getElementById('title');
+        titleInput.onclick = function(){
+            alert(titleInput.value);
+        }
+
     const $form = document.detailForm;
 	let bno = document.getElementById('bno').value;
 	document.getElementById('updateBtn').onclick = function() {
 		let pw = prompt('비밀번호를 입력하세요');
-		
+
+        if (pw === null) {
+            alert('비밀번호 입력이 취소되었습니다.');
+        }
+        else {
 		const data = {
 			    bno: bno,
 			    pw: pw
 			};
-		
+        
 		fetch('${pageContext.request.contextPath}/freeboard/check', {
             method: 'post',
             headers: {
@@ -77,11 +115,12 @@
             	console.log(data);
                 $form.submit();
             } else {
+                alert('비밀번호가 틀렸습니다.');
 				console.log(data);
-                
             }
         });
 	}
+}
 </script>
 
 

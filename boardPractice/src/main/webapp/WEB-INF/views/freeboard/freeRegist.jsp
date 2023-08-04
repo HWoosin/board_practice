@@ -12,21 +12,22 @@
                          
                             <div class="form-group">
                                 <label>작성자</label>
-                                <input class="form-control" id="writer" name="writer" oninput="handleInputLength(this, 15)" onblur="trimInput(this)" onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input class="form-control" id="writer" name="writer" placeholder="최대 15자 입력가능." oninput="handleInputLength(this, 15)" onblur="trimInput(this)">
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" oninput="handleInputLength(this, 100)" onblur="trimInput(this)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input class="form-control" id="title" name="title" placeholder="최대 100자 입력가능." oninput="handleInputLength(this, 100)" onblur="trimInput(this)">
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)"></textarea>
+                                <span id="textLengthCheck">0 / 1000</span>
+                                <textarea class="form-control" id="content" rows="10" placeholder="최대 1000자 입력가능." name="content" oninput="handleInputLength(this, 1000)" ></textarea>
                             </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control input-sm" id="pw" name="pw" oninput="handleInputLength(this, 15)" onblur="trimInput(this)"  onkeyup="checkWords(this)" onkeydown="checkWords(this)">
+                                <input type="password" class="form-control input-sm" id="pw" name="pw" placeholder="(대/소)영문/특수문자 포함 8자~10자 입력가능." oninput="handleInputLength(this, 10)" onblur="trimInput(this)">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -60,37 +61,63 @@
                 return badWordsRegex.test(inputText);
             }
 
-            function checkWords(inputText){
-                const wordExp = /[%=><&]/gi;
-                if(wordExp.test(inputText.value) ){
-                alert("해당 특수문자는 입력하실 수 없습니다.");
-                inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
+            // function checkWords(inputText){
+            //     const wordExp = /[%=><&]/gi;
+            //     if(wordExp.test(inputText.value) ){
+            //     alert("해당 특수문자는 입력하실 수 없습니다.");
+            //     inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
                 
-                }
+            //     }
+            // }
+
+            //입력에 따라 textarea 변함
+            const contentTextarea = document.getElementById('content');
+            function adjustTextareaHeight() {
+                contentTextarea.style.height = 'auto';
+                contentTextarea.style.height = contentTextarea.scrollHeight + 'px';
             }
 
-            //등록 버튼 이벤트 처리
+            contentTextarea.addEventListener('input', adjustTextareaHeight);
+            window.addEventListener('load', adjustTextareaHeight);
+
+            //글자 수 세기
+            $(document).ready(function() {
+                $("#content").keyup(function(e) {
+                    let content = $(this).val();
+                    $("#textLengthCheck").text(content.length + " / 1000");
+
+                    if (content.length > 1000) {
+                        alert("최대 1000자까지 입력 가능합니다.");
+                        $(this).val(content.substring(0, 1000));
+                        $("#textLengthCheck").text("1000 / 최대 1000자");
+                    }
+                });
+            });
+
+
+            //글 등록
             registBtn.onclick = function() {
 
                 const titleValue = titleInput.value;
                 const writerValue = writerInput.value;
                 const contentValue = contentInput.value;
                 const pwValue = pwInput.value;
+                const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$@!%*#?&])[a-zA-Z0-9$@!%*#?&]{8,10}$/; //최소 8 자 및 최대 10 자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자 정규식
 
 
-                if(titleValue === ''){
+                if(writerValue === ''){
+                    alert('작성자는 필수 항목');
+                    $form.writer.focus();
+                    return;
+                }    
+                else if(titleValue === ''){
                     alert('제목은 필수 항목');
                     $form.title.focus();
                     return;
-                }    
+                }
                 else if(contentValue === ''){
                     alert('내용은 필수 항목');
                     $form.content.focus();
-                    return;
-                }
-                else if(writerValue === ''){
-                    alert('작성자는 필수 항목');
-                    $form.writer.focus();
                     return;
                 }
                 else if(pwValue === ''){
@@ -99,16 +126,16 @@
                     return;
                 }
                 // 앞뒤 공백을 제거하고 빈 칸 여부 판단
-                else if (titleValue.trim() === '') {
-                    alert('공백만으로 글을 작성할 수 없습니다.(제목)');
-                    return;
-                    
-                } 
                 else if (writerValue.trim() === '') {
                     alert('공백만으로 글을 작성할 수 없습니다.(작성자)');
                     return;
                     
                 }
+                else if (titleValue.trim() === '') {
+                    alert('공백만으로 글을 작성할 수 없습니다.(제목)');
+                    return;
+                    
+                } 
                 else if (contentValue.trim() === '') {
                     alert('공백만으로 글을 작성할 수 없습니다.(내용)');
                     return;
@@ -124,10 +151,18 @@
                         alert('사용할 수 없는 단어가 포함되어 있습니다. 글을 등록할 수 없습니다.');
                         return;
                     }
+                   
+                else if (!passwordRegex.test(pwValue)) {
+                        const pwErrorMsg = document.getElementById('pwErrorMsg');
+                        alert('비밀번호는 (대/소)영문/특수문자 포함 8자~10자여야 합니다.');
+                        pwInput.focus();
+                        return;
+                    }
                 else{
                     console.log(titleValue);
                     $form.submit();
                 }
+
             }
             
             //글자수 제한
@@ -135,6 +170,7 @@
                 const trimmedValue = el.value.trim();
                 if(trimmedValue.length > max) {
                     el.value = el.value.substr(0, max);
+                    alert('사용할 수 있는 글자 수를 넘었습니다.')
                 }
             }
             //글자 submit 전 trim
@@ -142,36 +178,6 @@
                 el.value = el.value.trim();
             }
 
-            // //글 작성 시간제한
-            // let isWritingDisabled = false;
-
-            // function disableWritingFor10Seconds() {
-            // isWritingDisabled = true;
-            // registBtn.disabled = true;
-
-            //     setTimeout(() => {
-            //         isWritingDisabled = false;
-            //         registBtn.disabled = false;
-            //     }, 10000);
-            // }
-
-            // document.getElementById('writeButton').addEventListener('click', () => {
-            //     if (!isWritingDisabled) {
-            //         disableWritingFor10Seconds();
-            //         // 글 작성 요청 보내는 코드를 추가
-            //         const formData = new FormData();
-            //         formData.append('content', document.getElementById('content').value); // 글 내용 등 필요한 데이터 추가
-
-            //         // 서버로 요청 보내는 대신에 여기서 글 작성 처리
-            //         // 예시로 콘솔에 "글 작성 요청 보냄"을 출력
-            //         console.log('글 작성 요청 보냄');
-            //     }
-            // });
-        
-
-        
-    
-        
 
     </script>
   
