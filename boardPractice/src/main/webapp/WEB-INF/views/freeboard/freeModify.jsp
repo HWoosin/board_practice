@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 
-	<%@ include file="../include/header.jsp" %>
+	<!--개인 디자인 추가-->
+    <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link href="${pageContext.request.contextPath }/css/style.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
 
     <section>
         <div class="container">
@@ -20,18 +24,18 @@
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" value="${article.title}" oninput="handleInputLength(this, 100)" onblur="trimInput(this)" >
+                                <input class="form-control" id="title" name="title" value="${article.title}" oninput="handleTitleLength(this, 100)" onblur="trimInput(this)" >
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
-                                <span id="textLengthCheck">0 / 1000</span>
-                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleInputLength(this, 1000)" >${article.content}</textarea>
+                                <span id="textLengthCheck"></span>
+                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleContentLength(this, 1000); countWords(this, 1000)" >${article.content}</textarea>
                             </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
-                                <input type="password" class="form-control" placeholder="(대/소)영문/특수문자 포함 8자~10자 입력가능." id="pw" name="pw" value="${article.pw}" oninput="handleInputLength(this, 10)" onblur="trimInput(this)">
+                                <input type="password" class="form-control" placeholder="(대/소)영문/특수문자 포함 8자~10자 입력가능." id="pw" name="pw" value="${article.pw}" oninput="handlePWLength(this, 10)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
                             </div>
 
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
@@ -44,7 +48,6 @@
         </div>
         </section>
         
-        <%@ include file="../include/footer.jsp" %>
       
       <script>
         //목록 이동 처리
@@ -64,15 +67,6 @@
                 return badWordsRegex.test(inputText);
             }
 
-            // function checkWords(inputText){
-            //     const wordExp = /[%=><&]/gi;
-            //     if(wordExp.test(inputText.value) ){
-            //     alert("해당 특수문자는 입력하실 수 없습니다.");
-            //     inputText.value = inputText.value.substring( 0 , inputText.value.length - 1 ); // 입력한 특수문자 한자리 지움
-                
-            //     }
-            // }
-
         //입력에 따라 textarea 변함
         const contentTextarea = document.getElementById('content');
             function adjustTextareaHeight() {
@@ -89,21 +83,14 @@
             $("#textLengthCheck").text(content.length + " / 1000");
         }
             
-         //글자 수 세기
-         $(document).ready(function() {
-            updateCharacterCount();
-                $("#content").keyup(function(e) {
-                    let content = $(this).val();
-                    $("#textLengthCheck").text(content.length + " / 1000");
-
-                    if (content.length > 1000) {
-                        alert("최대 1000자까지 입력 가능합니다.");
-                        $(this).val(content.substring(0, 1000));
-                        $("#textLengthCheck").text("1000 / 최대 1000자");
-                    }
-                });
-            });
-            
+        //글자 수 세기
+        function countWords(textarea, maxLength) {
+            let text = textarea.value;
+            let currentLength = text.length;
+            let remainingLength = maxLength - currentLength;
+            let lengthCheckSpan = document.getElementById('textLengthCheck');
+            lengthCheckSpan.textContent = currentLength + ' / ' + maxLength;
+        }
 
         const $form = document.updateForm;
 
@@ -172,16 +159,42 @@
                 $form.submit();
             }
         }
-        
-        function handleInputLength(el, max) {
-      	  if(el.value.length > max) {
-      	    el.value = el.value.substr(0, max);
-            alert('사용할 수 있는 글자 수를 넘었습니다.')
-      	  }
-      	}
+            //제목 글자수 제한
+            function handleTitleLength(el, max) {
+                const trimmedValue = el.value.trim();
+                if(trimmedValue.length > max) {
+                    el.value = el.value.substr(0, max);
+                    alert('100자를 넘었습니다.')
+                }
+            }
+            //내용 글자수 제한
+            function handleContentLength(el, max) {
+                const trimmedValue = el.value.trim();
+                if(trimmedValue.length > max) {
+                    el.value = el.value.substr(0, max);
+                    alert('1000자를 넘었습니다.')
+                }
+            }
+            //비밀번호 글자수 제한
+            function handlePWLength(el, max) {
+                const trimmedValue = el.value.trim();
+                if(trimmedValue.length > max) {
+                    el.value = el.value.substr(0, max);
+                    alert('10자를 넘었습니다.')
+                }
+            }
         //글자 submit 전 trim
         function trimInput(el) {
                 el.value = el.value.trim();
+        }
+
+        //비밀번호칸에 스페이스바 입력 금지
+        function preventSpace(event) {
+            var keyCode = event.keyCode ? event.keyCode : event.which;
+
+            if (keyCode === 32) {
+                event.preventDefault();
+            }
         }
 
         //삭제 버튼 이벤트 처리

@@ -56,7 +56,7 @@ header {
 }
 
 section {
-	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 /*header 의 모든 컨테이너 클래스에 적용함 */
@@ -325,16 +325,20 @@ section {
 }
 
 /*제목에 클래스를 줘서 강제로 크기 고정*/
+.board-no {
+	width: 5%;
+	text-align: center;
+}
 .board-title {
-	width: 600px;
+	width: 60%;
 	text-align: center;
 }
 .board-writer {
-	width: 200px;
+	width: 25%;
 	text-align: center;
 }
 .board-date {
-	width: 100px;
+	width: 10%;
 	text-align: center;
 }
 /*th의 순차적 접근 색상변경 */
@@ -434,6 +438,7 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align:center;
 }
 
 .ellipsis{

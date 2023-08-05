@@ -2,7 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@ include file="../include/header.jsp" %>
+<!--개인 디자인 추가-->
+<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/style.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
 
 <section>
     <div class="container">
@@ -53,9 +57,6 @@
 </section>
 
 
-
-<%@ include file="../include/footer.jsp" %>
-
 <script>
     //입력에 따라 textarea 변함
     const contentTextarea = document.getElementById('content');
@@ -91,35 +92,39 @@
     const $form = document.detailForm;
 	let bno = document.getElementById('bno').value;
 	document.getElementById('updateBtn').onclick = function() {
-		let pw = prompt('비밀번호를 입력하세요');
+    enterPassword();
+};
 
-        if (pw === null) {
-            alert('비밀번호 입력이 취소되었습니다.');
-        }
-        else {
-		const data = {
-			    bno: bno,
-			    pw: pw
-			};
-        
-		fetch('${pageContext.request.contextPath}/freeboard/check', {
+function enterPassword() {
+    let pw = prompt('비밀번호를 입력하세요');
+
+    if (pw === null) {
+        return;
+    } else {
+        const data = {
+            bno: bno,
+            pw: pw
+        };
+
+        fetch('${pageContext.request.contextPath}/freeboard/check', {
             method: 'post',
             headers: {
                 'Content-type': 'application/JSON'
             },
             body: JSON.stringify(data)
         })
-        .then(res => res.text()) //요청 완료 후 응답 정보에서 텍스트만 빼기
-        .then(data => { //텍스트만 뺀 Promise 객체로부터 data전달받음.
+        .then(res => res.text()) // 요청 완료 후 응답 정보에서 텍스트만 빼기
+        .then(data => { // 텍스트만 뺀 Promise 객체로부터 data전달받음.
             if (data === '1') {
-            	console.log(data);
+                console.log(data);
                 $form.submit();
             } else {
-                alert('비밀번호가 틀렸습니다.');
-				console.log(data);
+                alert('비밀번호가 틀렸습니다. 다시 입력해주세요.');
+                console.log(data);
+                enterPassword(); // Prompt again for the password
             }
         });
-	}
+    }
 }
 </script>
 

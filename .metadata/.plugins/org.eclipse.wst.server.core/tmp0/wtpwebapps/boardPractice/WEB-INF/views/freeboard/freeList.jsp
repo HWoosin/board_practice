@@ -2,7 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
-    <%@ include file="../include/header.jsp" %>
+
+    <!--개인 디자인 추가-->
+    <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link href="${pageContext.request.contextPath }/css/style.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
     
     
     <section>
@@ -32,15 +37,18 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th class="board-no">번호</th>
                                 <th class="board-title">제목</th>
                                 <th class="board-writer">작성자</th>
                                 <th class="board-date">등록일</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <c:set var="num" value="${pc.articleTotalCount - ((pc.paging.pageNum-1) * pc.paging.cpp)}"/>
                             <c:forEach var="vo" items="${boardList}">
                             	<tr>
-	                            	<td>
+                                    <td>${num }</td>
+	                            	<td style="text-align: left;">
 	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">${vo.title}</a>
 
                                     </td>
@@ -51,6 +59,7 @@
 	                            	</td>
 	                            	
                             	</tr>
+                                <c:set var="num" value="${num-1 }"></c:set>
                             </c:forEach>
                         </tbody>
                         
@@ -96,8 +105,7 @@
         </div>
 	</section>
 	
-	
-	<%@ include file="../include/footer.jsp" %>
+
 
     <script>
 

@@ -1,0 +1,6 @@
+
+8월 05, 2023 17:43:12.853 NEW SESSION
+8월 05, 2023 17:43:12.853 [4084:4092:0805/174312.849:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 05, 2023 17:48:42.185 [4084:4228:0805/174842.185:ERROR:device_event_log_impl.cc(222)] [17:48:42.184] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
+8월 05, 2023 17:58:16.616 [4084:4092:0805/175816.615:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 05, 2023 19:00:44.398 [4084:4092:0805/190044.397:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
