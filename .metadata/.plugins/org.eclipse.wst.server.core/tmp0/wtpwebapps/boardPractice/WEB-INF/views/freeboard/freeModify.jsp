@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 	<!--개인 디자인 추가-->
     <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet">
@@ -20,17 +21,17 @@
                             </div>
                             <div class="form-group">
                                 <label>작성자</label>
-                                <input class="form-control" id="writer" name="writer" value="${article.writer}" readonly>
+                                <textarea class="form-control ellipsis" id="writer" rows="1" name="writer" readonly><c:out value="${article.writer}"></c:out></textarea>
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" value="${article.title}" oninput="handleTitleLength(this, 100)" onblur="trimInput(this)" >
+                                <textarea class="form-control ellipsis" id="title" rows="1" name="title" oninput="handleTitleLength(this, 100)" onblur="trimInput(this)"><c:out value="${article.title}"></c:out></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>내용</label>
                                 <span id="textLengthCheck"></span>
-                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleContentLength(this, 1000); countWords(this, 1000)" >${article.content}</textarea>
+                                <textarea class="form-control" id="content" rows="10" name="content" oninput="handleContentLength(this, 1000); countWords(this, 1000)"><c:out value="${article.content}"></c:out></textarea>
                             </div>
                             
                             <div class="form-group">

@@ -27,18 +27,18 @@ public class PageCreator {
 		
 		beginPage = endPage - buttonNum + 1;
 		
-		prev = (beginPage == 1) ? false : true;
-		
 		front = (beginPage == 1) ? false : true;
 		
-		end = (lastPage - beginPage < buttonNum) ? false : true;
+		prev = (beginPage == 1) ? false : true;
 		
 		next = articleTotalCount <= (endPage * paging.getCpp()) ? false : true;
+		
+		end = (lastPage - beginPage < buttonNum) ? false : true;
 		
 		
 		
 		if(!next) {
-			endPage = (int) Math.ceil(articleTotalCount/ (double)paging.getCpp());
+			endPage = lastPage;
 		}
 	}
 	

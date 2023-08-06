@@ -22,7 +22,9 @@
                             </div>    
                             <div class="form-group">
                                 <label>제목</label>
-                                <input class="form-control" id="title" name="title" placeholder="최대 100자 입력가능." oninput="handleTitleLength(this, 100)" onblur="trimInput(this)">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="최대 100자 입력가능." oninput="handleTitleLength(this, 100)" onblur="trimInput(this)">
+                                <!-- <textarea class="form-control" id="title" rows="1" placeholder="최대 100자 입력가능." name="title" oninput="handleTitleLength(this, 100)" onblur="trimInput(this)"></textarea> -->
+
                             </div>
 
                             <div class="form-group">

@@ -31,19 +31,19 @@
                     </div>
                     <div class="form-group">
                         <label>작성자</label>
-                        <input class="form-control ellipsis" name="writer" value="${article.writer}" readonly>
+                        <!-- <input class="form-control ellipsis" name="writer" value="${article.writer}" readonly> -->
+                        <textarea class="form-control ellipsis" id="writer" rows="1" name="writer" readonly><c:out value="${article.writer}"></c:out></textarea>
+
                     </div>
                     <div class="form-group">
                         <label>제목</label>
-                        <input class="form-control ellipsis" id="title" name="title" value="${article.title}" readonly onclick="showTextArea()">
-                        <!-- <div class="form-group">
-                        <textarea class="form-control" id="titleBox" name="content" style="display: none;" readonly onclick="showInputArea()"></textarea>
-                    </div> -->
+                        <!-- <input class="form-control ellipsis" id="title" name="title" value="${article.title}" readonly onclick="showTextArea()"> -->
+                        <textarea class="form-control ellipsis" id="title" rows="1" name="title" readonly  onclick="showTextArea()"><c:out value="${article.title}"></c:out></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>내용</label>
-                        <textarea class="form-control" id="content" rows="10" name="content" readonly>${article.content}</textarea>
+                        <textarea class="form-control" id="content" rows="10" name="content" readonly><c:out value="${article.content}"></c:out></textarea>
                     </div>
 
                     

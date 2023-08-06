@@ -27,12 +27,6 @@
 	 	</if>
 	 </sql>
 	 
-	 <sql id="myPage">
-	 	<if test="loginId != null">
-	 		where writer =#{loginId}
-	 	</if>
-	 
-	 </sql>
 	 
 	<insert id="regist">
 		INSERT INTO freeboard

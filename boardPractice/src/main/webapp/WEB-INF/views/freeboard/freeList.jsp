@@ -49,10 +49,14 @@
                             	<tr>
                                     <td>${num }</td>
 	                            	<td style="text-align: left;">
-	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">${vo.title}</a>
+	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">
+                                            <c:out value="${vo.title}"></c:out>
+                                        </a>
 
                                     </td>
-	                            	<td>${vo.writer}</td>
+	                            	<td>
+                                        <c:out value="${vo.writer}"></c:out>
+                                    </td>
 	                            	<td>
 	                            		<fmt:parseDate value="${vo.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
 	                            		<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일" />
@@ -66,7 +70,7 @@
                     </table>
 
 
-                    <!--페이지 네이션을 가져옴-->
+            <!-- 페이지 버튼 나열 -->
 		    <form action="${pageContext.request.contextPath}/freeboard/freeList?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}" name="pageForm">
                     <div class="text-center">
                     <hr>
@@ -180,7 +184,7 @@
                 const trimmedValue = el.value.trim();
                 if(trimmedValue.length > max) {
                     el.value = el.value.substr(0, max);
-                    alert('사용할 수 있는 글자 수를 넘었습니다.')
+                    alert('사용할 수 있는 글자 수를 넘었습니다.(100자)');
                 }
             }
 
