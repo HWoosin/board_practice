@@ -14,7 +14,7 @@
                         <p>자유게시판</p>
                     </div>
                     
-                     <form action="${pageContext.request.contextPath}/freeboard/regist" method="post" name="registForm">   
+                     <form action="${pageContext.request.contextPath}/freeboard/regist" method="post" name="registForm" onsubmit="return false">   
                          
                             <div class="form-group">
                                 <label>작성자</label>
@@ -84,9 +84,12 @@
                 let currentLength = text.length;
                 let remainingLength = maxLength - currentLength;
                 let lengthCheckSpan = document.getElementById('textLengthCheck');
-                lengthCheckSpan.textContent = currentLength + ' / ' + maxLength;
+                lengthCheckSpan.textContent = currentLength > maxLength ? maxLength + ' / ' + maxLength : currentLength + ' / ' + maxLength;
+                
+                if (currentLength > maxLength) {
+                    textarea.value = textarea.value.substring(0, maxLength);
+                }
             }
-
 
             //글 등록
             registBtn.onclick = function() {

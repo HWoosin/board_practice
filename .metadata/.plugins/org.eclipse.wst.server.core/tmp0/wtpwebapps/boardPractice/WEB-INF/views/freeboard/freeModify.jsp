@@ -15,7 +15,7 @@
                             <p>수정하기</p>
                         </div>
                         
-                        <form action="${pageContext.request.contextPath}/freeboard/update" method="post" name="updateForm">   
+                        <form action="${pageContext.request.contextPath}/freeboard/update" method="post" name="updateForm" onsubmit="return false">   
                             <div class="form-group">
                                 <input class="form-control" name="bno" value="${article.bno}" type="hidden">
                             </div>
@@ -90,7 +90,11 @@
             let currentLength = text.length;
             let remainingLength = maxLength - currentLength;
             let lengthCheckSpan = document.getElementById('textLengthCheck');
-            lengthCheckSpan.textContent = currentLength + ' / ' + maxLength;
+            lengthCheckSpan.textContent = currentLength > maxLength ? maxLength + ' / ' + maxLength : currentLength + ' / ' + maxLength;
+                
+                if (currentLength > maxLength) {
+                    textarea.value = textarea.value.substring(0, maxLength);
+                }
         }
 
         const $form = document.updateForm;
