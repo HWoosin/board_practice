@@ -12,8 +12,7 @@ CREATE TABLE freeboard(
    title VARCHAR(300) NOT NULL,
    writer VARCHAR(50) NOT NULL,
    content VARCHAR(3000) NOT NULL,
-   reg_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-   update_date DATETIME DEFAULT NULL
+   reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 */
 
@@ -28,6 +27,11 @@ public class FreeBoardVO {
 	private String content;
 	private String pw;
 	private LocalDateTime regDate;
+	
+	//하나의 게시물이 몇개의 댓글을 포함하는 지 
+	private int replyCnt;
+	
+	
 	
 
 }

@@ -1,0 +1,5 @@
+package com.spring.myweb.reply.service;
+
+public interface IReplyService {
+
+}

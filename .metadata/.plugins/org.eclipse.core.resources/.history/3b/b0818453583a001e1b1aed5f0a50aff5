@@ -1,0 +1,5 @@
+package com.spring.myweb.command;
+
+public class ReplyVO {
+
+}

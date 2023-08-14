@@ -52,6 +52,8 @@
 	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">
                                             <c:out value="${vo.title}"></c:out>
                                         </a>
+                                        &nbsp;
+                                        <strong>[${vo.replyCnt}]</strong>
 
                                     </td>
 	                            	<td>

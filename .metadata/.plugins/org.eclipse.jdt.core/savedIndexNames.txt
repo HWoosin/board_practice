@@ -33,7 +33,6 @@ INDEX VERSION 1.131+C:\woosin\board_practice\.metadata\.plugins\org.eclipse.jdt.
 2887184507.index
 2627352011.index
 2120085917.index
-1778252447.index
 3749149654.index
 482610130.index
 2025342053.index
