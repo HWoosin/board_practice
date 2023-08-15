@@ -29,10 +29,25 @@
 	 
 	 
 	<insert id="regist">
-		INSERT INTO freeboard
-		(title, writer, content, pw)
-		VALUES(#{title}, #{writer}, #{content}, #{pw})
+	
+	<selectKey resultType="java.lang.Integer" keyProperty="bno" order="BEFORE">
+        SELECT IFNULL(MAX(bno), 0) + 1 AS new_bno FROM freeboard
+    </selectKey>
+    
+	    INSERT INTO freeboard
+	    (title, writer, content, pw, origin_bno)
+	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno})
 	</insert>
+	
+	<insert id="replyRegist">
+		insert into freeboard
+		(title, writer, content, pw, origin_bno, group_ord, group_layer)
+		values(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{groupOrd}+1, #{groupLayer}+1)
+	</insert>
+	
+	<update id = "replyPos">
+		Update freeboard set group_ord = groupOrd + 1 where origin_bno = #{originBno} and group_ord > #{groupOrd}
+	</update>
 	
 	<select id="getList" resultType ="board">
 		Select f.*,

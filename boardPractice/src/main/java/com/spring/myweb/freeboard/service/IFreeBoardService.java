@@ -28,6 +28,9 @@ public interface IFreeBoardService {
 	//삭제
 	void delete(int bno);	
 	
+	//답글 등록
+	void replyRegist(FreeBoardVO vo);
+	
 }
 
 

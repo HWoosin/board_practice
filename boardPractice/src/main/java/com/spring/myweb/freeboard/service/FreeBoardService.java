@@ -52,5 +52,13 @@ public class FreeBoardService implements IFreeBoardService {
 	public void delete(int bno) {
 		mapper.delete(bno);
 	}
+
+	@Override
+	public void replyRegist(FreeBoardVO vo) {
+		mapper.replyPos(vo.getBno(), vo.getGroupOrd()+1);
+		mapper.replyRegist(vo);
+		
+	}
+	
 	
 }

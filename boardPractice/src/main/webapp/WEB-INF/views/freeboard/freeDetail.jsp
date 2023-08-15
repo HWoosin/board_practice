@@ -49,6 +49,8 @@
                     
                 </form>
                 <button class="btn btn-primary" id="updateBtn">변경</button>
+                <button type="button" class="btn btn-primary" id="replyBtn"
+                        onclick="location.href='${pageContext.request.contextPath}/freeboard/replyBoard'">답글작성</button>
                 <button type="button" class="btn btn-dark"
                         onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList?pageNum=${p.pageNum}&cpp=${p.cpp}&keyword=${p.keyword}&condition=${p.condition}'">목록</button>
             </div>

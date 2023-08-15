@@ -99,6 +99,19 @@ public class FreeBoardController {
 		return "redirect:/freeboard/freeList";
 	}
 	
+	//답글작성 페이지 열어주는 메서드
+	@GetMapping("/replyBoard")
+	public String replyBoard(FreeBoardVO vo , Model model) {
+		model.addAttribute("repBD",vo);
+		return "freeboard/replyRegist";
+	}
+	//답글 등록 처리
+	@PostMapping("/replyBoard")
+	public String replyBoard(FreeBoardVO vo) {
+		service.replyRegist(vo);
+		return "redirect:/freeboard/freeList";
+	}
+	
 }
 
 

@@ -30,5 +30,11 @@ public interface IFreeBoardMapper {
 		//삭제
 		void delete(int bno);
 		
+		//답글 등록
+		void replyRegist(FreeBoardVO vo);
+		
+		//답글의 위치
+		void replyPos(@Param("bno")int originBno, @Param("groupOrd")int groupOrd);
+		
 
 }

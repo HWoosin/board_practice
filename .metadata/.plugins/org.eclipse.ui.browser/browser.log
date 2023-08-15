@@ -155,3 +155,22 @@
 8월 14, 2023 12:44:08.787 [16404:15020:0814/124408.787:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -7
 8월 14, 2023 12:55:57.489 [16404:9736:0814/125557.489:ERROR:interface_endpoint_client.cc(702)] Message 1 rejected by interface blink.mojom.WidgetHost
 8월 14, 2023 13:42:28.785 [16404:15020:0814/134228.785:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 14, 2023 17:27:49.273 [16404:9736:0814/172749.273:ERROR:interface_endpoint_client.cc(702)] Message 0 rejected by interface blink.mojom.WidgetHost
+8월 14, 2023 18:15:22.780 [16404:15020:0814/181522.780:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 14, 2023 18:15:53.617 [16404:15020:0814/181553.617:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 14, 2023 18:16:49.759 [16404:15020:0814/181649.759:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 14, 2023 18:19:38.180 [16404:15020:0814/181938.179:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 18:20:06.513 [16404:15020:0814/182006.513:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 18:21:05.890 [16404:15020:0814/182105.890:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 18:22:33.864 [16404:15020:0814/182233.864:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 18:25:30.864 [16404:15020:0814/182530.864:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 18:42:27.747 [16404:15020:0814/184227.747:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 19:16:07.682 [16404:15020:0814/191607.682:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+8월 14, 2023 22:56:21.193 [16404:15020:0814/225621.192:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 14, 2023 23:07:42.282 [16404:15020:0814/230742.282:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -7
+8월 15, 2023 24:56:26.711 [16404:15020:0815/005626.710:ERROR:connection_factory_impl.cc(471)] ConnectionHandler failed with net error: -2
+8월 15, 2023 05:32:39.311 [16404:15020:0815/053239.311:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -7
+8월 15, 2023 09:42:16.171 [16404:15020:0815/094216.171:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -105
+8월 15, 2023 09:42:16.175 [16404:23560:0815/094216.175:ERROR:get_updates_processor.cc(265)] PostClientToServerMessage() failed during GetUpdates with error 2
+8월 15, 2023 09:42:21.845 [16404:15020:0815/094221.845:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -105
+8월 15, 2023 09:46:21.317 [16404:9736:0815/094621.316:ERROR:device_event_log_impl.cc(222)] [09:46:21.315] USB: usb_service_win.cc:104 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: 요소가 없습니다. (0x490)
