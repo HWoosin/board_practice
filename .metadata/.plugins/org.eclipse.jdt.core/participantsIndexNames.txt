@@ -1,7 +1,0 @@
-INDEX VERSION 1.131
-C:\woosin\board_practice\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\745309455.index
-\boardPractice\src\main\java
-C:\woosin\board_practice\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\592193956.index
-\boardPractice\src\main\java
-C:\woosin\board_practice\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3119904050.index
-\boardPractice\src\main\java
