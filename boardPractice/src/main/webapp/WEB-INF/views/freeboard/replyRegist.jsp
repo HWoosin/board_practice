@@ -41,10 +41,10 @@
                             <button type="button" id="listBtn" class="btn btn-dark">목록</button>    
                             <button type="button" id="registBtn" class="btn btn-primary">등록</button>
 
-                            <input type="text" name="bno" value="${repBD.bno}">
-                            <input type="text" name="originBno" value="${repBD.originBno}">
-                            <input type="text" name="groupOrd" value="${repBD.groupOrd}">
-                            <input type="text" name="groupLayer" value="${repBD.groupLayer}">
+                            <input type="hidden" name="bno" value="${repBD.bno}">
+                            <input type="hidden" name="originBno" value="${repBD.originBno}">
+                            <input type="hidden" name="groupOrd" value="${repBD.groupOrd}">
+                            <input type="hidden" name="groupLayer" value="${repBD.groupLayer}">
 
                     </form>
                     

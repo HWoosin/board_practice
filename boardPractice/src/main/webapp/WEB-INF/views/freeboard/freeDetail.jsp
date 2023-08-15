@@ -51,10 +51,10 @@
                 <button class="btn btn-primary" id="updateBtn">변경</button>
 
                 <!-- 계층을 위해 해당값을 넘겨주기 위함-->
-                <input type="text" name="bno" value="${article.bno}">
-                <input type="text" name="originBno" value="${article.originBno}">
-                <input type="text" name="groupOrd" value="${article.groupOrd}">
-                <input type="text" name="groupLayer" value="${article.groupLayer}">
+                <input type="hidden" name="bno" value="${article.bno}">
+                <input type="hidden" name="originBno" value="${article.originBno}">
+                <input type="hidden" name="groupOrd" value="${article.groupOrd}">
+                <input type="hidden" name="groupLayer" value="${article.groupLayer}">
 
                 <button type="button" class="btn btn-primary" id="replyBtn"
                         onclick="location.href='${pageContext.request.contextPath}/freeboard/replyBoard?bno=${article.bno}&originBno=${article.originBno}&groupOrd=${article.groupOrd}&groupLayer=${article.groupLayer}'">
@@ -79,11 +79,11 @@
                     </div> -->
                     <!--form-control은 부트스트랩의 클래스입니다-->
                     <div class="reply-content">
-                        <textarea class="form-control" rows="3" id="reply"></textarea>
+                        <textarea class="form-control" rows="3" id="reply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100)" onblur="trimInput(this)"></textarea>
                         <div class="reply-group">
                             <div class="reply-input">
-                                <input type="text" class="form-control" id="replyId" placeholder="이름">
-                                <input type="password" class="form-control" id="replyPw" placeholder="비밀번호">
+                                <input type="text" class="form-control" id="replyId" placeholder="이름" oninput="handleNameLength(this, 15)" onblur="trimInput(this)">
+                                <input type="password" class="form-control" id="replyPw" placeholder="비밀번호" oninput="handlePWLength(this, 15)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
                             </div>
 
                             <button type="button" id="replyRegist" class="right btn btn-info">등록하기</button>
@@ -114,11 +114,11 @@
             <div class="modal-body">
                 <!-- 수정폼 id값을 확인하세요-->
                 <div class="reply-content">
-                    <textarea class="form-control" rows="4" id="modalReply" placeholder="내용입력"></textarea>
+                    <textarea class="form-control" rows="4" id="modalReply" placeholder="내용입력" onblur="trimInput(this)"></textarea>
                     <div class="reply-group">
                         <div class="reply-input">
                             <input type="hidden" id="modalRno">
-                            <input type="password" class="form-control" placeholder="비밀번호" id="modalPw">
+                            <input type="password" class="form-control" placeholder="비밀번호" id="modalPw" oninput="handlePWLength(this, 15)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
                         </div>
                         <button class="right btn btn-info" id="modalModBtn">수정하기</button>
                         <button class="right btn btn-info" id="modalDelBtn">삭제하기</button>
@@ -184,6 +184,41 @@ function enterPassword() {
         });
     }
 }
+//이름 글자수 제한
+function handleNameLength(el, max) {
+            const trimmedValue = el.value.trim();
+            if(trimmedValue.length > max) {
+                el.value = el.value.substr(0, max);
+                alert('10자를 넘었습니다.')
+            }
+        }
+        //내용 글자수 제한
+        function handleContentLength(el, max) {
+            const trimmedValue = el.value.trim();
+            if(trimmedValue.length > max) {
+                el.value = el.value.substr(0, max);
+                alert('100자를 넘었습니다.')
+            }
+        }
+        //비밀번호 글자수 제한
+        function handlePWLength(el, max) {
+            const trimmedValue = el.value.trim();
+            if(trimmedValue.length > max) {
+                el.value = el.value.substr(0, max);
+                alert('10자를 넘었습니다.')
+            }
+        }
+        //비밀번호칸에 스페이스바 입력 금지
+        function preventSpace(event) {
+            var keyCode = event.keyCode ? event.keyCode : event.which;
+            if (keyCode === 32) {
+                event.preventDefault();
+            }
+        }
+        //글자 submit 전 trim
+        function trimInput(el) {
+            el.value = el.value.trim();
+        }
 
 
 //댓글등록
@@ -201,6 +236,22 @@ window.onload = function () {
         if (reply === '' || replyId === '' || replyPw === '') {
             alert('이름, 비밀번호, 내용을 입력하세요!');
             return;
+        }
+        // 앞뒤 공백을 제거하고 빈 칸 여부 판단
+        else if (replyId.trim() === '') {
+            alert('공백만으로 글을 작성할 수 없습니다.(작성자)');
+            return;
+                    
+        }
+        else if (reply.trim() === '') {
+            alert('공백만으로 글을 작성할 수 없습니다.(내용)');
+            return;
+            
+        }
+        else if (replyPw.trim() === '') {
+            alert('공백만으로 글을 작성할 수 없습니다.(비밀번호)');
+            return;
+                        
         }
 
         //요청에 관련된 정보 객체
@@ -237,11 +288,6 @@ window.onload = function () {
         //게시글 상세보기 화면에 처음 진입했을 시 댓글 리스트를 한 번 불러오자.
         getList(true);
 
-        //댓글 목록을 가져올 함수.
-        //getList의 매개값으로 뭘 줄거냐?
-        //요청된 페이지 번호와, 화면을 리셋할 것인지의 여부를 bool 타입의 reset으로 받겠습니다.
-        //(페이지가 그대로 머물면서 댓글이 밑에 계속 쌓이기 때문에, 상황에 따라서
-        // 페이지를 리셋해서 새롭게 그려낼 것인지, 누적해서 쌓을 것인지의 여부를 판단.)
         function getList(reset) {
             strAdd = '';
             const bno = '${article.bno}'; //게시글 번호
@@ -278,7 +324,7 @@ window.onload = function () {
                                 <a href='` + replyList[i].rno + `' class='right replyDelete'><span class='glyphicon glyphicon-remove'></span>삭제</a> &nbsp;
                                 <a href='` + replyList[i].rno + `' class='right replyModify'><span class='glyphicon glyphicon-pencil'></span>수정</a>
                             </div>
-                            <p class='clearfix'>` + replyList[i].reply + `</p>
+                            <p class='clearfix' style="word-wrap: break-word;">` + replyList[i].reply + `</p>
                         </div>
                     </div>`;
 
@@ -429,6 +475,7 @@ window.onload = function () {
                 });
 
         } //end delete event
+
 
 }
 </script>
