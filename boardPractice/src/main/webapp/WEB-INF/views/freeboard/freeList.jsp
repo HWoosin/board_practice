@@ -49,6 +49,8 @@
                             	<tr>
                                     <td>${num }</td>
 	                            	<td style="text-align: left;">
+                                        <c:forEach begin="1" end="${vo.groupLayer}">&nbsp;&nbsp;</c:forEach>
+                                        <c:if test="${vo.groupLayer>0}">└</c:if>
 	                            		<a href="${pageContext.request.contextPath}/freeboard/content/${vo.bno}?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}">
                                             <c:out value="${vo.title}"></c:out>
                                         </a>

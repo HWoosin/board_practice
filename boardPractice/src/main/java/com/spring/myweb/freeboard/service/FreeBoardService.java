@@ -55,10 +55,13 @@ public class FreeBoardService implements IFreeBoardService {
 
 	@Override
 	public void replyRegist(FreeBoardVO vo) {
-		mapper.replyPos(vo.getBno(), vo.getGroupOrd()+1);
-		mapper.replyRegist(vo);
 		
+		FreeBoardVO rep = vo;
+		rep.setGroupOrd(mapper.replyPos(vo.getBno(),vo.getGroupOrd())+1);//답글이 몇번째인지 표시
+		mapper.replyRegist(rep);
+
 	}
+	
 	
 	
 }

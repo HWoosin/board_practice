@@ -31,6 +31,7 @@ public interface IFreeBoardService {
 	//답글 등록
 	void replyRegist(FreeBoardVO vo);
 	
+	
 }
 
 

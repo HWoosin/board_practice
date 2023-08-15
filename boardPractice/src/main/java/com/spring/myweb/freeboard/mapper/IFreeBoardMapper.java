@@ -33,8 +33,9 @@ public interface IFreeBoardMapper {
 		//답글 등록
 		void replyRegist(FreeBoardVO vo);
 		
-		//답글의 위치
-		void replyPos(@Param("bno")int originBno, @Param("groupOrd")int groupOrd);
+		//답글 위치 배치
+		int replyPos(@Param("originBno")int originBno, @Param("groupOrd")int groupOrd);
+
 		
 
 }

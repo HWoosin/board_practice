@@ -49,8 +49,18 @@
                     
                 </form>
                 <button class="btn btn-primary" id="updateBtn">변경</button>
+
+                <!-- 계층을 위해 해당값을 넘겨주기 위함-->
+                <input type="text" name="bno" value="${article.bno}">
+                <input type="text" name="originBno" value="${article.originBno}">
+                <input type="text" name="groupOrd" value="${article.groupOrd}">
+                <input type="text" name="groupLayer" value="${article.groupLayer}">
+
                 <button type="button" class="btn btn-primary" id="replyBtn"
-                        onclick="location.href='${pageContext.request.contextPath}/freeboard/replyBoard'">답글작성</button>
+                        onclick="location.href='${pageContext.request.contextPath}/freeboard/replyBoard?bno=${article.bno}&originBno=${article.originBno}&groupOrd=${article.groupOrd}&groupLayer=${article.groupLayer}'">
+                    답글작성
+                </button>
+
                 <button type="button" class="btn btn-dark"
                         onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList?pageNum=${p.pageNum}&cpp=${p.cpp}&keyword=${p.keyword}&condition=${p.condition}'">목록</button>
             </div>

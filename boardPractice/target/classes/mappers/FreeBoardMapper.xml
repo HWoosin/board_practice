@@ -28,33 +28,34 @@
 	 </sql>
 	 
 	 
-	<insert id="regist">
+	<insert id="regist"><!-- 원글등록 -->
 	
 	<selectKey resultType="java.lang.Integer" keyProperty="bno" order="BEFORE">
         SELECT IFNULL(MAX(bno), 0) + 1 AS new_bno FROM freeboard
     </selectKey>
     
 	    INSERT INTO freeboard
-	    (title, writer, content, pw, origin_bno)
-	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno})
+	    (title, writer, content, pw, origin_bno, group_ord)
+	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{groupOrd}+1)
 	</insert>
 	
-	<insert id="replyRegist">
+	
+	<select id = "replyPos" resultType ="int"><!-- 답글위치지정할때 제일 마지막 글위치 찾기 -->
+		select IFNULL(MAX(group_ord), #{groupOrd}) from freeboard where origin_bno = #{originBno}
+	</select>
+	
+	<insert id="replyRegist"><!-- 답글 작성하며 답글의 계층정하기 -->
 		insert into freeboard
 		(title, writer, content, pw, origin_bno, group_ord, group_layer)
-		values(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{groupOrd}+1, #{groupLayer}+1)
+		values(#{title}, #{writer}, #{content}, #{pw}, #{originBno}, #{groupOrd}, #{groupLayer}+1)
 	</insert>
-	
-	<update id = "replyPos">
-		Update freeboard set group_ord = groupOrd + 1 where origin_bno = #{originBno} and group_ord > #{groupOrd}
-	</update>
 	
 	<select id="getList" resultType ="board">
 		Select f.*,
 		(Select count(*) from freereply where bno = f.bno) AS reply_cnt 
 		FROM freeboard f
 		<include refid="search" />
-		order by bno desc
+		order by origin_bno desc, group_ord asc, group_layer desc
 		limit #{pageStart}, #{cpp}
 	</select>
 	
