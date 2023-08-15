@@ -1,8 +1,0 @@
-127.0.0.1 - - [11/Aug/2023:08:35:16 +0900] "GET / HTTP/1.1" 404 807
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:21 +0900] "GET /myweb/freeboard/freeList HTTP/1.1" 200 15875
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:21 +0900] "GET /myweb/css/bootstrap.css HTTP/1.1" 304 -
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:21 +0900] "GET /myweb/css/style.css HTTP/1.1" 304 -
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:21 +0900] "GET /myweb/js/bootstrap.js HTTP/1.1" 304 -
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:22 +0900] "GET /myweb/freeboard/freeList?pageNum=2&cpp=10&keyword=&condition= HTTP/1.1" 200 15515
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:23 +0900] "GET /myweb/freeboard/freeList?pageNum=3&cpp=10&keyword=&condition= HTTP/1.1" 200 15509
-0:0:0:0:0:0:0:1 - - [11/Aug/2023:08:35:24 +0900] "GET /myweb/freeboard/freeList?pageNum=1&cpp=10&keyword=&condition= HTTP/1.1" 200 15875
