@@ -278,7 +278,7 @@ window.onload = function () {
                 getList(true);
             });
 
-    } //댓글 등록 이벤트 끝.
+    } //댓글 등록 이벤트 끝.리스트
 
     //댓글리스트 불러오기
     let strAdd = ''; //화면에 그려넣을 태그를 문자열의 형태로 추가할 변수
@@ -424,7 +424,6 @@ window.onload = function () {
                         document.getElementById('modalPw').value = '';
                         document.getElementById('modalPw').focus();
                     } else {
-                        alert('정상 수정 되었습니다.');
                         document.getElementById('modalReply').value = '';
                         document.getElementById('modalPw').value = '';
                         //제이쿼리 문법으로 bootstrap 모달 닫아주기
@@ -436,19 +435,6 @@ window.onload = function () {
 
         //삭제 이벤트
         document.getElementById('modalDelBtn').onclick = () => {
-            /*
-            1. 모달창에 rno값, replyPw 값을 얻습니다.
-
-            2. fetch 함수를 이용해서 DELETE 방식으로 reply/{rno} 요청
-
-            3. 서버에서는 요청을 받아서 비밀번호를 확인하고, 비밀번호가 맞으면
-             삭제를 진행하시면 됩니다.
-
-            4. 만약 비밀번호가 틀렸다면, 문자열을 반환해서
-            '비밀번호가 틀렸습니다.' 경고창을 띄우세요.
-
-            삭제 완료되면 모달 닫고 목록 요청 다시 보내세요. (reset의 여부를 잘 판단)
-            */
 
             const rno = document.getElementById('modalRno').value;
             const replyPw = document.getElementById('modalPw').value;
@@ -470,7 +456,6 @@ window.onload = function () {
                 .then(res => res.text())
                 .then(data => {
                     if (data === 'delSuccess') {
-                        alert('댓글이 삭제되었습니다.');
                         document.getElementById('modalPw').value = '';
                         $('#replyModal').modal('hide');
                         getList(true);
