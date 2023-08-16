@@ -94,7 +94,6 @@
 
                 <!--여기에 접근 반복-->
                 <div id="replyList">
-
                     <!-- 자바스크립트 단에서 반복문을 이용해서 댓글의 개수만큼 반복 표현. -->
 
                 </div>
@@ -114,7 +113,7 @@
             <div class="modal-body">
                 <!-- 수정폼 id값을 확인하세요-->
                 <div class="reply-content">
-                    <textarea class="form-control" rows="4" id="modalReply" placeholder="내용입력" onblur="trimInput(this)"></textarea>
+                    <textarea class="form-control" rows="4" id="modalReply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100)" onblur="trimInput(this)"></textarea>
                     <div class="reply-group">
                         <div class="reply-input">
                             <input type="hidden" id="modalRno">
@@ -320,11 +319,11 @@ window.onload = function () {
                         <div class='reply-wrap'>
                         <div class='reply-content'>
                             <div class='reply-group'>
-                                <strong class='left'>` + replyList[i].replyId + ` </strong>
+                                <pre class='left replyId` + i + `' style="display:inline; font-weight:bold"></pre>
                                 <a href='` + replyList[i].rno + `' class='right replyDelete'><span class='glyphicon glyphicon-remove'></span>삭제</a> &nbsp;
                                 <a href='` + replyList[i].rno + `' class='right replyModify'><span class='glyphicon glyphicon-pencil'></span>수정</a>
                             </div>
-                            <p class='clearfix' style="word-wrap: break-word;">` + replyList[i].reply + `</p>
+                            <pre class='clearfix reply` + i + `'></pre>
                         </div>
                     </div>`;
 
@@ -332,10 +331,18 @@ window.onload = function () {
 
                     //id가 replyList라는 div 영역에 문자열 형식으로 모든 댓글을 추가.
                     if (!reset) {
-                        document.getElementById('replyList').insertAdjacentHTML('beforeend', strAdd);
-                    } else {
-                        document.getElementById('replyList').insertAdjacentHTML('afterbegin', strAdd);
-                    }
+						document.getElementById('replyList').insertAdjacentHTML('beforeend', strAdd);
+						for (let i = 0; i < replyList.length; i++) {
+							document.querySelector(`.replyId` + i).insertAdjacentText('beforeend', replyList[i].replyId);
+							document.querySelector(`.reply` + i).insertAdjacentText('beforeend', replyList[i].reply);
+						}
+					} else {
+						document.getElementById('replyList').insertAdjacentHTML('afterbegin', strAdd);
+						for (let i = 0; i < replyList.length; i++) {
+							document.querySelector(`.replyId` + i).insertAdjacentText('beforeend', replyList[i].replyId);
+							document.querySelector(`.reply` + i).insertAdjacentText('beforeend', replyList[i].reply);
+						}
+					}
 
 
                 });

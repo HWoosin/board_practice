@@ -62,7 +62,7 @@
                                         <c:out value="${vo.writer}"></c:out>
                                     </td>
 	                            	<td>
-	                            		<fmt:parseDate value="${vo.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
+	                            		<fmt:parseDate value="${vo.regDate}" pattern="yyyy-MM-dd" var="parsedDateTime" type="both" />
 	                            		<fmt:formatDate value="${parsedDateTime}" pattern="yyyy년 MM월 dd일" />
 	                            	</td>
 	                            	

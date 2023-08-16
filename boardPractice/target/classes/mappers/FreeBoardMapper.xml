@@ -39,10 +39,9 @@
 	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{groupOrd}+1)
 	</insert>
 	
-	
-	<select id = "replyPos" resultType ="int"><!-- 답글위치지정할때 제일 마지막 글위치 찾기 -->
-		select IFNULL(MAX(group_ord), #{groupOrd}) from freeboard where origin_bno = #{originBno}
-	</select>
+	<update id = "updatePos">
+		update freeboard set group_ord = group_ord +1 where origin_bno = #{originBno} and group_ord > #{groupOrd}
+	</update>
 	
 	<insert id="replyRegist"><!-- 답글 작성하며 답글의 계층정하기 -->
 		insert into freeboard
@@ -55,7 +54,7 @@
 		(Select count(*) from freereply where bno = f.bno) AS reply_cnt 
 		FROM freeboard f
 		<include refid="search" />
-		order by origin_bno desc, group_ord asc, group_layer desc
+		order by origin_bno desc, group_ord asc
 		limit #{pageStart}, #{cpp}
 	</select>
 	

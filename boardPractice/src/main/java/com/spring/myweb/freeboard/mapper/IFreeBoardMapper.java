@@ -35,6 +35,9 @@ public interface IFreeBoardMapper {
 		
 		//답글 위치 배치
 		int replyPos(@Param("originBno")int originBno, @Param("groupOrd")int groupOrd);
+		
+		//그룹안 답글 위치 수정
+		void updatePos(@Param("originBno")int originBno, @Param("groupOrd")int groupOrd);
 
 		
 
