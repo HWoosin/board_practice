@@ -21,9 +21,7 @@ import com.spring.myweb.command.FreeBoardVO;
 import com.spring.myweb.freeboard.mapper.IFreeBoardMapper;
 import com.spring.myweb.util.PageVO;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class FreeBoardService implements IFreeBoardService {
 

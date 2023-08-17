@@ -39,6 +39,11 @@
 	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{bno}, #{groupOrd}+1)
 	</insert>
 	
+	<!--  
+	<update id = "updateObno">
+		update freeboard set origin_bno = bno, parent_bno = bno where bno = #{bno}
+	</update>-->
+	
 	<update id = "updatePos">
 		update freeboard set group_ord = group_ord +1 where origin_bno = #{originBno} and group_ord > #{groupOrd}
 	</update>
