@@ -107,7 +107,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-default pull-right" id="closeModal" data-dismiss="modal">닫기</button>
                 <h4 class="modal-title">댓글 수정</h4>
             </div>
             <div class="modal-body">
@@ -390,6 +390,11 @@ window.onload = function () {
             }
         }); //수정 or 삭제 버튼 클릭 이벤트 끝.
 
+        //닫기누르면 비번칸 초기화
+        document.getElementById('closeModal').onclick = () =>{
+            const replyPw = document.getElementById('modalPw').value='';
+        }
+
 
         //수정 처리 함수. (수정 모달을 열어서 수정 내용을 작성 후 수정 버튼을 클릭했을 때)
         document.getElementById('modalModBtn').onclick = () => {
@@ -433,18 +438,21 @@ window.onload = function () {
                 });
         } //end update event
 
-        //삭제 이벤트
+        // 삭제 이벤트
         document.getElementById('modalDelBtn').onclick = () => {
 
-            const rno = document.getElementById('modalRno').value;
-            const replyPw = document.getElementById('modalPw').value;
+        const rno = document.getElementById('modalRno').value;
+        const replyPw = document.getElementById('modalPw').value;
 
-            if (replyPw === '') {
-                alert('비밀번호를 확인하세요!');
-                return;
-            }
+        if (replyPw === '') {
+            alert('비밀번호를 확인하세요!');
+            return;
+        }
 
-            fetch('${pageContext.request.contextPath}/reply/' + rno, {
+            const confirmDelete = confirm('정말로 삭제하시겠습니까?');
+
+            if (confirmDelete) {
+                fetch('${pageContext.request.contextPath}/reply/' + rno, {
                     method: 'delete',
                     headers: {
                         'Content-Type': 'application/json'
@@ -465,8 +473,10 @@ window.onload = function () {
                         document.getElementById('modalPw').focus();
                     }
                 });
-
-        } //end delete event
+            } else {
+                // 사용자가 취소를 클릭한 경우 아무 작업 없음
+            }
+        };
 
 
 }
