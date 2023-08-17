@@ -53,6 +53,7 @@ public class FreeBoardController {
 	@PostMapping("/regist")
 	public String regist(FreeBoardVO vo) {
 		service.regist(vo);
+		service.updateObno();//부모글, 그룹번호 업데이트
 		return "redirect:/freeboard/freeList";
 	}
 	

@@ -30,19 +30,18 @@
 	 
 	<insert id="regist"><!-- 원글등록 -->
 	
-	<selectKey resultType="java.lang.Integer" keyProperty="bno" order="BEFORE">
+	<!--  <selectKey resultType="java.lang.Integer" keyProperty="bno" order="BEFORE">
         SELECT IFNULL(MAX(bno), 0) + 1 AS new_bno FROM freeboard
-    </selectKey>
+    </selectKey>-->
     
 	    INSERT INTO freeboard
-	    (title, writer, content, pw, parent_bno, origin_bno, group_ord)
-	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{bno}, #{groupOrd}+1)
+	    (title, writer, content, pw,  group_ord)
+	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{groupOrd}+1)
 	</insert>
 	
-	<!--  
 	<update id = "updateObno">
-		update freeboard set origin_bno = bno, parent_bno = bno where bno = #{bno}
-	</update>-->
+		update freeboard set origin_bno = bno, parent_bno = bno ORDER BY bno DESC LIMIT 1;
+	</update>
 	
 	<update id = "updatePos">
 		update freeboard set group_ord = group_ord +1 where origin_bno = #{originBno} and group_ord > #{groupOrd}
@@ -53,6 +52,17 @@
 		(title, writer, content, pw, parent_bno, origin_bno, group_ord, group_layer)
 		values(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{originBno}, #{groupOrd}, #{groupLayer}+1)
 	</insert>
+	
+	<!--  <select id="getList" resultType="board">
+	    Select f.*,
+	    (Select count(*) from freereply where bno = f.bno) AS reply_cnt,
+	    @rownum := @rownum + 1 AS rownum
+	    FROM freeboard f
+	    CROSS JOIN (SELECT @rownum := 0) r
+	    <include refid="search" />
+	    order by origin_bno desc, group_ord asc
+	    limit #{pageStart}, #{cpp}
+	</select> -->
 	
 	<select id="getList" resultType ="board">
 		Select f.*,

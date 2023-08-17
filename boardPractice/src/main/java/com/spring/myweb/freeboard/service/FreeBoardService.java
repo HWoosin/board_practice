@@ -32,6 +32,11 @@ public class FreeBoardService implements IFreeBoardService {
 	public void regist(FreeBoardVO vo) {
 		mapper.regist(vo);
 	}
+	
+	@Override
+	public void updateObno() { //bno를 origin_bno와 parent_bno에 똑같이 붙여주기 = 원글 작성시. 
+		mapper.updateObno();
+	}
 
 	@Override
 	public List<FreeBoardVO> getList(PageVO vo) {
@@ -60,13 +65,14 @@ public class FreeBoardService implements IFreeBoardService {
 		mapper.update(vo);
 
 	}
+	
 
 	@Override
 	public void delete(FreeBoardVO vo) {//답글없으면 삭제 , 답글 있으면 삭제되었습니다 처리, 그룹의 댓글이 삭제된 채로 표시되면 완전 모두 삭제
-		System.out.println(vo.getBno());
-		System.out.println(vo.getGroupLayer());
-		System.out.println(mapper.checkChild(vo.getBno()));
-		System.out.println(mapper.checkChild(vo.getBno())>vo.getGroupLayer());
+//		System.out.println(vo.getBno());
+//		System.out.println(vo.getGroupLayer());
+//		System.out.println(mapper.checkChild(vo.getBno()));
+//		System.out.println(mapper.checkChild(vo.getBno())>vo.getGroupLayer());
 		
 		if(mapper.checkChild(vo.getBno())>vo.getGroupLayer()) {
 			mapper.delfix(vo.getBno());

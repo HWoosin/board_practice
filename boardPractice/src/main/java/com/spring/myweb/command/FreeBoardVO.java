@@ -25,6 +25,8 @@ CREATE TABLE freeboard(
 @ToString
 public class FreeBoardVO {
 
+	private int rownum;
+	
 	private int bno;
 	private int del;
 	private String title;
@@ -40,6 +42,6 @@ public class FreeBoardVO {
 	private int originBno;//부모글
 	private int groupOrd;//원글,답글의 순서...그룹내의 순서
 	private int groupLayer;//답글 계층.. 부모글에 대한 답글인지, 답글의 답글인지 표현
-	private int parentBno;
+	private int parentBno;//바로 윗부모 답글 삭제시 필요 자식의 유무 판단에 사용
 
 }

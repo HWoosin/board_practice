@@ -12,6 +12,7 @@ public interface IFreeBoardService {
 	
 	//글 등록
 	void regist(FreeBoardVO vo);
+	void updateObno();
 	
 	//글 목록
 	List<FreeBoardVO> getList(PageVO vo);
