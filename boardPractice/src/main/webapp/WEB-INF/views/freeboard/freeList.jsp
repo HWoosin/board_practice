@@ -99,6 +99,7 @@
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList'">목록</button>
+                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/downloadExcel'">.xlsx</button>
                     </div>
 
                     <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">

@@ -2,6 +2,9 @@ package com.spring.myweb.freeboard.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.spring.myweb.command.FreeBoardVO;
 import com.spring.myweb.util.PageVO;
 
@@ -30,6 +33,10 @@ public interface IFreeBoardService {
 	
 	//답글 등록
 	void replyRegist(FreeBoardVO vo);
+	
+	//엑셀다운
+	void getExcel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 	
 	
 }

@@ -38,6 +38,9 @@ public interface IFreeBoardMapper {
 		
 		//그룹안 답글 위치 수정
 		void updatePos(@Param("originBno")int originBno, @Param("groupOrd")int groupOrd);
+		
+		//엑셀받기
+		List<FreeBoardVO> getExcel();
 
 		
 

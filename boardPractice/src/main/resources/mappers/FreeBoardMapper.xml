@@ -84,6 +84,10 @@
 		Where bno = #{bno}
 	</delete>
 	
+	<select id="getExcel" resultType ="board">
+		Select * from freeboard order by origin_bno desc, group_ord asc
+	</select>
+	
 
 </mapper>
 

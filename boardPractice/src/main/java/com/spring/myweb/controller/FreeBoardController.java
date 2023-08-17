@@ -1,8 +1,12 @@
 package com.spring.myweb.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -110,6 +114,13 @@ public class FreeBoardController {
 	public String replyBoard(FreeBoardVO vo) {
 		service.replyRegist(vo);
 		return "redirect:/freeboard/freeList";
+	}
+	
+	//엑셀다운
+	@GetMapping("/downloadExcel")
+	public void Excel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    service.getExcel(vo, request, response);
+	 
 	}
 	
 }
