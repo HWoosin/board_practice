@@ -17,7 +17,11 @@
                         
                         <form action="${pageContext.request.contextPath}/freeboard/update" method="post" name="updateForm" onsubmit="return false">   
                             <div class="form-group">
-                                <input class="form-control" name="bno" value="${article.bno}" type="hidden">
+                                <input type="text" name="bno" value="${article.bno}">
+                                <input type="text" name="originBno" value="${article.originBno}">
+                                <input type="text" name="parentBno" value="${article.parentBno}">
+                                <input type="text" name="groupOrd" value="${article.groupOrd}">
+                                <input type="text" name="groupLayer" value="${article.groupLayer}">
                             </div>
                             <div class="form-group">
                                 <label>작성자</label>

@@ -26,6 +26,7 @@ CREATE TABLE freeboard(
 public class FreeBoardVO {
 
 	private int bno;
+	private int del;
 	private String title;
 	private String writer;
 	private String content;
@@ -39,5 +40,6 @@ public class FreeBoardVO {
 	private int originBno;//부모글
 	private int groupOrd;//원글,답글의 순서...그룹내의 순서
 	private int groupLayer;//답글 계층.. 부모글에 대한 답글인지, 답글의 답글인지 표현
+	private int parentBno;
 
 }

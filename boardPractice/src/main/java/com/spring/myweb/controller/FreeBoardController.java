@@ -85,7 +85,8 @@ public class FreeBoardController {
 	
 	//글 수정 페이지 이동 처리
 	@PostMapping("/modify")
-	public String modify(@ModelAttribute("article") FreeBoardVO vo) {
+	public String modify(@ModelAttribute("article") FreeBoardVO vo, Model model) {
+		model.addAttribute("article", service.getDetail(vo.getBno()));
 		return "freeboard/freeModify";
 	}
 	
@@ -96,10 +97,17 @@ public class FreeBoardController {
 		return "redirect:/freeboard/content/" + vo.getBno();
 	}
 	
-	//글 삭제 처리
+	//글 논리적삭제 처리
+//	@PostMapping("/delfix")
+//	public String delfix(int bno) {
+//		service.delfix(bno);
+//		return "redirect:/freeboard/freeList";
+//	}
+	
+	//글 완전삭제 처리ㄴ
 	@PostMapping("/delete")
-	public String delete(int bno) {
-		service.delete(bno);
+	public String delete(FreeBoardVO vo) {
+		service.delete(vo);
 		return "redirect:/freeboard/freeList";
 	}
 	

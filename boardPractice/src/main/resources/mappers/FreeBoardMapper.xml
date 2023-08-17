@@ -35,8 +35,8 @@
     </selectKey>
     
 	    INSERT INTO freeboard
-	    (title, writer, content, pw, origin_bno, group_ord)
-	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{groupOrd}+1)
+	    (title, writer, content, pw, parent_bno, origin_bno, group_ord)
+	    VALUES(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{bno}, #{groupOrd}+1)
 	</insert>
 	
 	<update id = "updatePos">
@@ -45,8 +45,8 @@
 	
 	<insert id="replyRegist"><!-- 답글 작성하며 답글의 계층정하기 -->
 		insert into freeboard
-		(title, writer, content, pw, origin_bno, group_ord, group_layer)
-		values(#{title}, #{writer}, #{content}, #{pw}, #{originBno}, #{groupOrd}, #{groupLayer}+1)
+		(title, writer, content, pw, parent_bno, origin_bno, group_ord, group_layer)
+		values(#{title}, #{writer}, #{content}, #{pw}, #{bno}, #{originBno}, #{groupOrd}, #{groupLayer}+1)
 	</insert>
 	
 	<select id="getList" resultType ="board">
@@ -79,12 +79,38 @@
 		where bno = #{bno}
 	</update>
 	
+	<!-- 답글이 있을경우 삭제법 List에 보여주기 위함-->
+	<update id="delfix">
+		Update freeboard set del = 1 where bno = #{bno}
+	</update>
+	
+	<select id="checkChild" resultType = "java.lang.Integer">
+		select IFNULL(MAX(group_layer), 0) from freeboard where parent_bno = #{bno}
+	</select>
+	
+	<!-- 완전삭제 -->
 	<delete id="delete">
 		Delete from freeboard 
 		Where bno = #{bno}
 	</delete>
 	
-	<select id="getExcel" resultType ="board">
+	<!-- 해당그룹의 전체글 -->
+	<select id="countGrp" resultType ="int">
+		select count(*) from freeboard where origin_bno = #{originBno};
+	</select>
+	
+	<!-- 해당그룹의 논리삭제된 갯수 -->
+	<select id="countDel" resultType ="int">
+		select count(*) from freeboard where del = 1 and origin_bno = #{originBno};
+	</select>
+	
+	<!-- 해당그룹의 글이 모두 논리적 삭제면 전부 삭제 -->
+	<delete id="deleteAll">
+		Delete from freeboard where origin_bno = #{originBno} and del = 1;
+	</delete>
+	
+	
+	<select id="getExcel" resultType = "board">
 		Select * from freeboard order by origin_bno desc, group_ord asc
 	</select>
 	

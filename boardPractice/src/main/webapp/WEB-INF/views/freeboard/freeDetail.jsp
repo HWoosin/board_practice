@@ -47,14 +47,15 @@
                     </div>
 
                     
+                    <!-- 계층을 위해 해당값을 넘겨주기 위함-->
+                    <input type="text" name="bno" value="${article.bno}">
+                    <input type="text" name="originBno" value="${article.originBno}">
+                    <input type="text" name="parentBno" value="${article.parentBno}">
+                    <input type="text" name="groupOrd" value="${article.groupOrd}">
+                    <input type="text" name="groupLayer" value="${article.groupLayer}">
                 </form>
                 <button class="btn btn-primary" id="updateBtn">변경</button>
 
-                <!-- 계층을 위해 해당값을 넘겨주기 위함-->
-                <input type="hidden" name="bno" value="${article.bno}">
-                <input type="hidden" name="originBno" value="${article.originBno}">
-                <input type="hidden" name="groupOrd" value="${article.groupOrd}">
-                <input type="hidden" name="groupLayer" value="${article.groupLayer}">
 
                 <button type="button" class="btn btn-primary" id="replyBtn"
                         onclick="location.href='${pageContext.request.contextPath}/freeboard/replyBoard?bno=${article.bno}&originBno=${article.originBno}&groupOrd=${article.groupOrd}&groupLayer=${article.groupLayer}'">

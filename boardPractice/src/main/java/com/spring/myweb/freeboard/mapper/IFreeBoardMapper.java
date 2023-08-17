@@ -27,8 +27,19 @@ public interface IFreeBoardMapper {
 		//수정
 		void update(FreeBoardVO vo);
 		
-		//삭제
+		//답글있을경우 논리적삭제
+		void delfix(int bno);
+		
+		//답글없을경우 완전삭제
 		void delete(int bno);
+		
+		//그룹이 모두 삭제된글이라고 뜰경우 del과 그룹의 댓글갯수 비교해서 맞으면 모두 삭제
+		int countGrp(int originBno);
+		int countDel(int originBno);
+		void deleteAll(int originBno);
+		
+		//답글있는지 확인
+		int checkChild(int bno);
 		
 		//답글 등록
 		void replyRegist(FreeBoardVO vo);

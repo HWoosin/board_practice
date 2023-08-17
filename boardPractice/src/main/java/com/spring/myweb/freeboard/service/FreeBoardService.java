@@ -21,6 +21,9 @@ import com.spring.myweb.command.FreeBoardVO;
 import com.spring.myweb.freeboard.mapper.IFreeBoardMapper;
 import com.spring.myweb.util.PageVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class FreeBoardService implements IFreeBoardService {
 
@@ -61,9 +64,32 @@ public class FreeBoardService implements IFreeBoardService {
 	}
 
 	@Override
-	public void delete(int bno) {
-		mapper.delete(bno);
+	public void delete(FreeBoardVO vo) {//답글없으면 삭제 , 답글 있으면 삭제되었습니다 처리, 그룹의 댓글이 삭제된 채로 표시되면 완전 모두 삭제
+		System.out.println(vo.getBno());
+		System.out.println(vo.getGroupLayer());
+		System.out.println(mapper.checkChild(vo.getBno()));
+		System.out.println(mapper.checkChild(vo.getBno())>vo.getGroupLayer());
+		
+		if(mapper.checkChild(vo.getBno())>vo.getGroupLayer()) {
+			mapper.delfix(vo.getBno());
+			
+			if(mapper.countGrp(vo.getOriginBno())== mapper.countDel(vo.getOriginBno())) {
+				mapper.deleteAll(vo.getOriginBno());
+			}
+		}
+		else {
+			mapper.delete(vo.getBno());
+			
+			if(mapper.countGrp(vo.getOriginBno())== mapper.countDel(vo.getOriginBno())) {
+				mapper.deleteAll(vo.getOriginBno());
+			}
+		}
 	}
+	
+//	@Override
+//	public void delfix(int bno) {
+//		mapper.delfix(bno);
+//	}
 
 	@Override
 	public void replyRegist(FreeBoardVO vo) {
