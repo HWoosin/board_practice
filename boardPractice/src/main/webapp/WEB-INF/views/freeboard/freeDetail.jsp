@@ -84,8 +84,8 @@
                         <textarea class="form-control" rows="3" id="reply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100); countWords(this, 100)" onblur="trimInput(this)"></textarea>
                         <div class="reply-group">
                             <div class="reply-input">
-                                <input type="text" class="form-control" id="replyId" placeholder="이름" oninput="handleNameLength(this, 15)" onblur="trimInput(this)">
-                                <input type="password" class="form-control" id="replyPw" placeholder="비밀번호" oninput="handlePWLength(this, 15)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
+                                <input type="text" class="form-control" id="replyId" placeholder="이름(15자)" oninput="handleNameLength(this, 15)" onblur="trimInput(this)">
+                                <input type="password" class="form-control" id="replyPw" placeholder="비밀번호(10자)" oninput="handlePWLength(this, 10)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
                             </div>
 
                             <button type="button" id="replyRegist" class="right btn btn-info">등록하기</button>
@@ -115,11 +115,12 @@
             <div class="modal-body">
                 <!-- 수정폼 id값을 확인하세요-->
                 <div class="reply-content">
-                    <textarea class="form-control" rows="4" id="modalReply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100)" onblur="trimInput(this)"></textarea>
+                    <span id="textLongCheck"></span>
+                    <textarea class="form-control" rows="4" id="modalReply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100); countModalWords(this, 100)" onblur="trimInput(this)"></textarea>
                     <div class="reply-group">
                         <div class="reply-input">
                             <input type="hidden" id="modalRno">
-                            <input type="password" class="form-control" placeholder="비밀번호" id="modalPw" oninput="handlePWLength(this, 15)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
+                            <input type="password" class="form-control" placeholder="비밀번호(10자)" id="modalPw" oninput="handlePWLength(this, 10)" onblur="trimInput(this)" onkeydown="preventSpace(event)">
                         </div>
                         <button class="right btn btn-info" id="modalModBtn">수정하기</button>
                         <button class="right btn btn-info" id="modalDelBtn">삭제하기</button>
@@ -231,6 +232,18 @@ function handleNameLength(el, max) {
                 
                 if (currentLength > maxLength) {
                     textarea.value = textarea.value.substring(0, maxLength);
+                }
+    }
+    //글자 수 세기
+    function countModalWords(textarea2, maxLength2) {
+                let text2 = textarea2.value;
+                let currentLength2 = text2.length;
+                let remainingLength2 = maxLength2 - currentLength2;
+                let lengthCheckSpan2 = document.getElementById('textLongCheck');
+                lengthCheckSpan2.textContent = currentLength2 > maxLength2 ? maxLength2 + ' / ' + maxLength2 : currentLength2 + ' / ' + maxLength2;
+                
+                if (currentLength2 > maxLength2) {
+                    textarea2.value = textarea2.value.substring(0, maxLength2);
                 }
     }
 
@@ -412,11 +425,14 @@ window.onload = function () {
         //닫기누르면 비번칸 초기화
         document.getElementById('closeModal').onclick = () =>{
             const replyPw = document.getElementById('modalPw').value='';
+            document.getElementById('textLongCheck').textContent=''
         }
 
 
         //수정 처리 함수. (수정 모달을 열어서 수정 내용을 작성 후 수정 버튼을 클릭했을 때)
         document.getElementById('modalModBtn').onclick = () => {
+
+            document.getElementById('textLongCheck').textContent=''
 
             const reply = document.getElementById('modalReply').value;
             const rno = document.getElementById('modalRno').value;
@@ -459,6 +475,8 @@ window.onload = function () {
 
         // 삭제 이벤트
         document.getElementById('modalDelBtn').onclick = () => {
+
+        document.getElementById('textLongCheck').textContent=''
 
         const rno = document.getElementById('modalRno').value;
         const replyPw = document.getElementById('modalPw').value;
