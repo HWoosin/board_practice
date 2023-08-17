@@ -79,7 +79,8 @@
                     </div> -->
                     <!--form-control은 부트스트랩의 클래스입니다-->
                     <div class="reply-content">
-                        <textarea class="form-control" rows="3" id="reply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100)" onblur="trimInput(this)"></textarea>
+                        <span id="textLengthCheck">0 / 100</span>
+                        <textarea class="form-control" rows="3" id="reply" placeholder="댓글은 100자까지 입력가능합니다." oninput="handleContentLength(this, 100); countWords(this, 100)" onblur="trimInput(this)"></textarea>
                         <div class="reply-group">
                             <div class="reply-input">
                                 <input type="text" class="form-control" id="replyId" placeholder="이름" oninput="handleNameLength(this, 15)" onblur="trimInput(this)">
@@ -219,6 +220,19 @@ function handleNameLength(el, max) {
             el.value = el.value.trim();
         }
 
+    //글자 수 세기
+    function countWords(textarea, maxLength) {
+                let text = textarea.value;
+                let currentLength = text.length;
+                let remainingLength = maxLength - currentLength;
+                let lengthCheckSpan = document.getElementById('textLengthCheck');
+                lengthCheckSpan.textContent = currentLength > maxLength ? maxLength + ' / ' + maxLength : currentLength + ' / ' + maxLength;
+                
+                if (currentLength > maxLength) {
+                    textarea.value = textarea.value.substring(0, maxLength);
+                }
+    }
+
 
 //댓글등록
 window.onload = function () {
@@ -277,6 +291,10 @@ window.onload = function () {
                 //등록 완료 후 댓글 목록 함수를 호출해서 비동기식으로 목록 표현.
                 getList(true);
             });
+
+        //댓글등록하면 글자수 세기 초기화
+        document.getElementById('textLengthCheck').textContent = '0 / 100'
+
 
     } //댓글 등록 이벤트 끝.리스트
 
