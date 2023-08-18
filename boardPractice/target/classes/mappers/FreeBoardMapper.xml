@@ -110,8 +110,11 @@
 	
 	<!-- 완전삭제 -->
 	<delete id="delete">
-		Delete from freeboard 
-		Where bno = #{bno}
+		Delete from freeboard Where bno = #{bno}
+	</delete>
+	<!-- 글이 완전 삭제 되었을때 달린 댓글들 삭제 -->
+	<delete id="deleteReply">
+		Delete from freereply Where bno = #{bno}
 	</delete>
 	
 	<!-- 해당그룹의 전체글 -->
@@ -130,8 +133,14 @@
 	</delete>
 	
 	
-	<select id="getExcel" resultType = "board">
-		Select * from freeboard order by origin_bno desc, group_ord asc
+	<!-- <select id="getExcel" resultType = "board">
+		Select * from freeboard where del = 0 order by origin_bno desc, group_ord asc
+	</select>-->
+	<select id="getExcel" resultType="board">
+	    SELECT *, @rownum := @rownum + 1 AS rownum
+	    FROM freeboard, (SELECT @rownum := 0) r
+	    WHERE del = 0
+	    ORDER BY origin_bno DESC, group_ord ASC;
 	</select>
 	
 

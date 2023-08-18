@@ -88,6 +88,7 @@ public class FreeBoardService implements IFreeBoardService {
 		}
 		else {
 			mapper.delete(vo.getBno());
+			mapper.deleteReply(vo.getBno());
 			
 			if(mapper.countGrp(vo.getOriginBno())== mapper.countDel(vo.getOriginBno())) {
 				mapper.deleteAll(vo.getOriginBno());
@@ -147,10 +148,11 @@ public class FreeBoardService implements IFreeBoardService {
 		  SXSSFWorkbook wb = new SXSSFWorkbook();
 		  Sheet sheet = wb.createSheet();
 		  sheet.setColumnWidth((short) 0, (short) 2000);
-		  sheet.setColumnWidth((short) 1, (short) 8000);
+		  sheet.setColumnWidth((short) 1, (short) 2000);
 		  sheet.setColumnWidth((short) 2, (short) 8000);
-		  sheet.setColumnWidth((short) 3, (short) 3000);
+		  sheet.setColumnWidth((short) 3, (short) 8000);
 		  sheet.setColumnWidth((short) 4, (short) 3000);
+		  sheet.setColumnWidth((short) 5, (short) 3000);
 		  
 		  Row row = sheet.createRow(0);
 		  Cell cell = null;
@@ -159,7 +161,7 @@ public class FreeBoardService implements IFreeBoardService {
 		  cell = row.createCell(0);
 		  cell.setCellValue("게시글 리스트");
 		  setHeaderCS(cs, font, cell);
-		  sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 4));
+		  sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 5));
 		  
 		  row = sheet.createRow(1);
 		  cell = null;
@@ -167,22 +169,26 @@ public class FreeBoardService implements IFreeBoardService {
 		  font = wb.createFont();
 		  
 		  cell = row.createCell(0);
-		  cell.setCellValue("번호");
+		  cell.setCellValue("최신순");
+		  setHeaderCS(cs, font, cell);
+		  
+		  cell = row.createCell(1);
+		  cell.setCellValue("글번호");
 		  setHeaderCS(cs, font, cell);
 		 
-		  cell = row.createCell(1);
+		  cell = row.createCell(2);
 		  cell.setCellValue("제목");
 		  setHeaderCS(cs, font, cell);
 		  
-		  cell = row.createCell(2);
+		  cell = row.createCell(3);
 		  cell.setCellValue("내용");
 		  setHeaderCS(cs, font, cell);
 		  
-		  cell = row.createCell(3);
+		  cell = row.createCell(4);
 		  cell.setCellValue("작성자");
 		  setHeaderCS(cs, font, cell);		  
 		  
-		  cell = row.createCell(4);
+		  cell = row.createCell(5);
 		  cell.setCellValue("작성일");
 		  setHeaderCS(cs, font, cell);
 		 
@@ -198,22 +204,26 @@ public class FreeBoardService implements IFreeBoardService {
 		  font = wb.createFont();
 		  
 		  cell = row.createCell(0);
-		  cell.setCellValue(fvo.getBno());
+		  cell.setCellValue(fvo.getRownum());
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(1);
-		  cell.setCellValue(fvo.getTitle());
+		  cell.setCellValue(fvo.getBno());
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(2);
-		  cell.setCellValue(fvo.getContent());
+		  cell.setCellValue(fvo.getTitle());
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(3);
-		  cell.setCellValue(fvo.getWriter());
+		  cell.setCellValue(fvo.getContent());
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(4);
+		  cell.setCellValue(fvo.getWriter());
+		  setCmmnCS2(cs, cell);
+		  
+		  cell = row.createCell(5);
 		  cell.setCellValue(createDate);
 		  setCmmnCS2(cs, cell);
 		  
