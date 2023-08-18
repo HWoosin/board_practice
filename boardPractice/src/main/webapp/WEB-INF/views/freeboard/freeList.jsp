@@ -31,7 +31,8 @@
 		                            <option value="writer" ${pc.paging.condition == 'writer' ? 'selected': ''}>작성자</option>
 		                            <option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected': ''}>제목+내용</option>
 		                       </select>
-                               <p class="totalView">${pc.articleTotalCount}개의 글이 있습니다.</p>
+                               <!-- <p class="totalView">${pc.articleTotalCount-del}개의 글이 있습니다.</p> -->
+                                <p class="totalView">${pc.articleTotalCount}개의 글이 있습니다.</p>
 		                    </div>
 				</form>              
                     <table class="table table-bordered">
@@ -117,7 +118,7 @@
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList'">목록</button>
-                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/downloadExcel'">.xlsx</button>
+                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/downloadExcel'">엑셀파일다운</button>
                     </div>
 
                     <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">

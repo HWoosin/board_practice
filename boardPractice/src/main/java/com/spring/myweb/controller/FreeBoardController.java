@@ -38,7 +38,7 @@ public class FreeBoardController {
 		
 //		System.out.println(pc.toString());
 		log.info(pc.toString());
-		
+		model.addAttribute("del", service.countDelAll());
 		model.addAttribute("boardList", service.getList(vo));
 		model.addAttribute("pc", pc);
 	}

@@ -16,6 +16,7 @@ public interface IFreeBoardService {
 	
 	//글 목록
 	List<FreeBoardVO> getList(PageVO vo);
+	int countDelAll();
 	
 	//총 게시물 구하기
 	int getTotal(PageVO vo);

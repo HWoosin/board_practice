@@ -42,6 +42,11 @@ public class FreeBoardService implements IFreeBoardService {
 	public List<FreeBoardVO> getList(PageVO vo) {
 		return mapper.getList(vo);
 	}
+	
+	@Override
+	public int countDelAll() {
+		return mapper.countDelAll();
+	}
 
 	@Override
 	public int getTotal(PageVO vo) {

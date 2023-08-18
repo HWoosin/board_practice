@@ -103,6 +103,11 @@
 		select IFNULL(MAX(group_layer), 0) from freeboard where parent_bno = #{bno}
 	</select>
 	
+	<!-- 논리적삭제 갯수확인 -->
+	<select id = "countDelAll" resultType = "int">
+		select count(*)from freeboard where del = 1;
+	</select>
+	
 	<!-- 완전삭제 -->
 	<delete id="delete">
 		Delete from freeboard 
