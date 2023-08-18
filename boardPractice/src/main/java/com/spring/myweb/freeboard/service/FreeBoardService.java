@@ -105,7 +105,7 @@ public class FreeBoardService implements IFreeBoardService {
 	public void replyRegist(FreeBoardVO vo) {
 		
 		FreeBoardVO rep = vo;
-		mapper.updatePos(rep.getOriginBno(),rep.getGroupOrd());//기존글들의 순서를 한층씩 다 밀어내고
+		mapper.updatePos(vo.getOriginBno(),vo.getGroupOrd());//기존글들의 순서를 한층씩 다 밀어내고
 		rep.setGroupOrd(rep.getGroupOrd()+1);//새로 작성된 글의 순서를 원글에서 +1하고
 		mapper.replyRegist(rep);//자리가 지정된 글을 등록
 
