@@ -14,7 +14,7 @@ import com.spring.myweb.util.PageVO;
 public interface IFreeBoardService {
 	
 	//글 등록
-	void regist(FreeBoardVO vo);
+	void regist(FreeBoardVO vo, List<MultipartFile> file);
 	void updateObno();
 	
 	//글 목록
@@ -45,7 +45,7 @@ public interface IFreeBoardService {
 	
 	
 	//파일업로드
-	void insertfile(UDFileVO vo, MultipartFile file);
+//	void insertfile(UDFileVO vo, List<MultipartFile> file);
 
 	//가지고있는 파일 가져오기
 	List<UDFileVO> viewfile(int bno);

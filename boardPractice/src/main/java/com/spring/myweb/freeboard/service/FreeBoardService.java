@@ -37,8 +37,11 @@ public class FreeBoardService implements IFreeBoardService {
 	private IFreeBoardMapper mapper;
 	
 	@Override
-	public void regist(FreeBoardVO vo) {
+	public void regist(FreeBoardVO vo, List<MultipartFile> file) {
 		mapper.regist(vo);
+		if(file != null) {
+			insertfile(file);			
+		}
 	}
 	
 	@Override
@@ -119,8 +122,8 @@ public class FreeBoardService implements IFreeBoardService {
 
 	}
 	
-	@Override
-	public void insertfile(UDFileVO vo, MultipartFile file) {
+	
+	public void insertfile(List<MultipartFile> file) {
 
 		//날짜별로 폴더를 생성해서 관리할 예정.
 		LocalDateTime now = LocalDateTime.now();
@@ -135,36 +138,52 @@ public class FreeBoardService implements IFreeBoardService {
 		
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
-		String fileRealName = file.getOriginalFilename();
-		UUID uuid = UUID.randomUUID();
-		String uuids = uuid.toString().replaceAll("-", "");
 		
-		//확장자 추출
-		String fileExtension= fileRealName.substring(fileRealName.lastIndexOf("."));
+		int i = 0;
+		while (i < file.size()) {
+			if (file.get(i).isEmpty()) {
+				file.remove(i);
+			} else {
+				i++;
+			}
+		}
 		
-		log.info("저장할 폴더 경로: "+ uploadPath);
-		log.info("실제 파일명: "+ fileRealName);
-		log.info("폴더명: "+ fileLoca);
-		log.info("확장자: "+ fileExtension);
-		log.info("고유랜덤문자: "+ uuids);
+		//리스트로 들어오면 모든 파일 입력
+		for(MultipartFile f : file) {
+			String fileRealName = f.getOriginalFilename();
+			UUID uuid = UUID.randomUUID();
+			String uuids = uuid.toString().replaceAll("-", "");
+			
+			//확장자 추출
+			String fileExtension= fileRealName.substring(fileRealName.lastIndexOf("."));
+			
+			log.info("저장할 폴더 경로: "+ uploadPath);
+			log.info("실제 파일명: "+ fileRealName);
+			log.info("폴더명: "+ fileLoca);
+			log.info("확장자: "+ fileExtension);
+			log.info("고유랜덤문자: "+ uuids);
+			
+			String fileName = uuids + fileExtension;
+			log.info("변경해서 저장할 파일명: "+ fileName);
+			
+			//업로드한 파일을 지정한 로컬 경로로 전송
+			File saveFile = new File(uploadPath + fileLoca + "/" + fileName);
+			try {
+				f.transferTo(saveFile);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			
+			UDFileVO vo = new UDFileVO(); 
+			vo.setUploadPath(uploadPath);
+			vo.setFileLoca(fileLoca);
+			vo.setFileName(fileName);
+			vo.setFileRealName(fileRealName);
+			
+			mapper.insertfile(vo);
+		}
 		
-		String fileName = uuids + fileExtension;
-		log.info("변경해서 저장할 파일명: "+ fileName);
-		
-		//업로드한 파일을 지정한 로컬 경로로 전송
-		File saveFile = new File(uploadPath + fileLoca + "/" + fileName);
-		try {
-			file.transferTo(saveFile);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		vo.setUploadPath(uploadPath);
-		vo.setFileLoca(fileLoca);
-		vo.setFileName(fileName);
-		vo.setFileRealName(fileRealName);
-		
-		mapper.insertfile(vo);
 	}
 	
 	@Override

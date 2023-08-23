@@ -2,6 +2,7 @@ package com.spring.myweb.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,8 +61,8 @@ public class FreeBoardController {
 	
 	//글 등록 처리
 	@PostMapping("/regist")
-	public String regist(FreeBoardVO vo, MultipartFile file) {
-		service.regist(vo);
+	public String regist(FreeBoardVO vo, List<MultipartFile> file) {
+		service.regist(vo, file);
 		service.updateObno();//부모글, 그룹번호 업데이트
 		return "redirect:/freeboard/freeList";
 	}
@@ -144,12 +145,12 @@ public class FreeBoardController {
 	
 	
 	//파일업로드
-	@PostMapping("/upload")
-	public String upload(MultipartFile file, UDFileVO vo) {
-		service.insertfile(vo, file);
-		return "success";
-		
-	}
+//	@PostMapping("/upload")
+//	public String upload(List<MultipartFile> file, UDFileVO vo) {
+//		service.insertfile(vo, file);
+//		return "success";
+//		
+//	}
 	
 	//파일다운로드
 	@GetMapping("/download/{fileLoca}/{fileName}")
