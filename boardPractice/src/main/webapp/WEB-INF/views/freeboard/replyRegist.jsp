@@ -32,6 +32,19 @@
                                 <span id="textLengthCheck">0 / 1000</span>
                                 <textarea class="form-control" id="content" rows="10" placeholder="최대 1000자 입력가능." name="content" oninput="handleContentLength(this, 1000); countWords(this, 1000)"></textarea>
                             </div>
+
+                            <div class="form-group">
+                                <!-- 파일 업로드 폼입니다 -->
+                                <div class="reply-content">
+                                    <div class="reply-group">
+                                        <div class="filebox pull-left">
+                                            <label for="file">파일 업로드</label>
+                                            <input type="file" name="file" id="file">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 파일 업로드 폼 끝 -->
+                            </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>

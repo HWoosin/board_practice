@@ -1,12 +1,19 @@
 package com.spring.myweb.controller;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.myweb.command.FreeBoardVO;
+import com.spring.myweb.command.UDFileVO;
 import com.spring.myweb.freeboard.service.IFreeBoardService;
 import com.spring.myweb.util.PageCreator;
 import com.spring.myweb.util.PageVO;
@@ -51,7 +60,7 @@ public class FreeBoardController {
 	
 	//글 등록 처리
 	@PostMapping("/regist")
-	public String regist(FreeBoardVO vo) {
+	public String regist(FreeBoardVO vo, MultipartFile file) {
 		service.regist(vo);
 		service.updateObno();//부모글, 그룹번호 업데이트
 		return "redirect:/freeboard/freeList";
@@ -67,6 +76,7 @@ public class FreeBoardController {
 	@GetMapping("/content/{bno}")
 	public String getDetail(@PathVariable int bno, @ModelAttribute("p") PageVO vo, Model model) {		
 		model.addAttribute("article", service.getDetail(bno));
+		model.addAttribute("fileInfo", service.viewfile(bno));
 		return "freeboard/freeDetail";
 	}
 	
@@ -132,6 +142,46 @@ public class FreeBoardController {
 	 
 	}
 	
+	
+	//파일업로드
+	@PostMapping("/upload")
+	public String upload(MultipartFile file, UDFileVO vo) {
+		service.insertfile(vo, file);
+		return "success";
+		
+	}
+	
+	//파일다운로드
+	@GetMapping("/download/{fileLoca}/{fileName}")
+	public ResponseEntity<byte[]> download(@PathVariable String fileLoca, @PathVariable String fileName){
+		File file = new File("C:/test/upload/"+fileLoca+"/"+fileName);
+		ResponseEntity<byte[]> result = null;
+		
+		HttpHeaders header = new HttpHeaders();
+		
+		//응답하는 본문을 브라우저가 어떻게 표시해야 할 지 알려주는 헤더 정보를 추가
+		//inline인 경우 웹 페이지 화면에 표시되고, attachment인 경우 다운로드를 제공
+		//request객체의 getHeader("User-Agent") -> 단어를 뽑아서 확인
+        //ie: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko  
+        //chrome: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+
+        //파일명한글처리(Chrome browser) 크롬
+        //header.add("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") );
+        //파일명한글처리(Edge) 엣지 
+        //header.add("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        //파일명한글처리(Trident) IE
+        //Header.add("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", " "));
+		
+		header.add("Content-Disposition", "attachment; filename=" + fileName);
+		
+		try {
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),header, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return result;
+	}
 }
 
 
