@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.myweb.command.FreeBoardVO;
+import com.spring.myweb.command.UDFileVO;
 import com.spring.myweb.util.PageVO;
 
 public interface IFreeBoardMapper {
@@ -57,7 +58,11 @@ public interface IFreeBoardMapper {
 		
 		//엑셀받기
 		List<FreeBoardVO> getExcel();
-
 		
+		//파일 업로드
+		void insertfile(UDFileVO vo);
+
+		//가지고있는 파일 가져오기
+		List<UDFileVO> viewfile(int bno);
 
 }

@@ -23,6 +23,7 @@
 	<typeAliases>
 		<typeAlias type="com.spring.myweb.command.FreeBoardVO" alias="board" />
 		<typeAlias type="com.spring.myweb.command.ReplyVO" alias="reply" />
+		<typeAlias type="com.spring.myweb.command.UDFileVO" alias="UDFile" />
 
 	</typeAliases>
 	

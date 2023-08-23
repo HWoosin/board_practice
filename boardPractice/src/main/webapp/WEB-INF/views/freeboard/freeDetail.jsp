@@ -46,6 +46,15 @@
                         <textarea class="form-control" id="content" rows="10" name="content" readonly><c:out value="${article.content}"></c:out></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label>첨부파일</label>
+                        <div class="title">
+                            <c:forEach var="file" items="${fileInfo}">
+									<a id="download" href="${pageContext.request.contextPath}/freeboard/download/${file.fileLoca}/${file.fileName}" style="display: block;">${file.fileRealName}</a>
+                            </c:forEach>
+                        </div>
+                    </div>
+
                     
                     <!-- 계층을 위해 해당값을 넘겨주기 위함-->
                     <input type="hidden" name="bno" value="${article.bno}">

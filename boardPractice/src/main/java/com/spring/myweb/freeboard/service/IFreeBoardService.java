@@ -5,7 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.myweb.command.FreeBoardVO;
+import com.spring.myweb.command.UDFileVO;
 import com.spring.myweb.util.PageVO;
 
 public interface IFreeBoardService {
@@ -39,7 +42,13 @@ public interface IFreeBoardService {
 	
 	//엑셀다운
 	void getExcel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	
+	//파일업로드
+	void insertfile(UDFileVO vo, MultipartFile file);
 
+	//가지고있는 파일 가져오기
+	List<UDFileVO> viewfile(int bno);
 	
 	
 }

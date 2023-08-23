@@ -32,6 +32,20 @@
                                 <span id="textLengthCheck">0 / 1000</span>
                                 <textarea class="form-control" id="content" rows="10" placeholder="최대 1000자 입력가능." name="content" oninput="handleContentLength(this, 1000); countWords(this, 1000)"></textarea>
                             </div>
+
+                            <div class="form-group">
+                                <!-- 파일 업로드 폼입니다 -->
+                                <div class="reply-content">
+                                    <div class="reply-group">
+                                        <div class="filebox pull-left">
+                                            <label for="file">파일 업로드</label>
+                                            <input type="file" name="file" id="file" multiple>
+                                            <div id="fileContents"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 파일 업로드 폼 끝 -->
+                            </div>
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
@@ -91,8 +105,66 @@
                 }
             }
 
+
             //글 등록
             registBtn.onclick = function() {
+
+                //파일등록
+
+                // let file = document.getElementById('file').value;
+                // console.log(file);
+                // //.을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경
+                // file = file.slice(file.indexOf('.') + 1).toLowerCase();
+
+                // const formData = new FormData();
+			    // const $data = document.getElementById('file'); //이미지 첨부 input
+
+                // //FormData 객체에 사용자가 업로드한 파일의 정보가 들어있는 객체를 전달.
+                // for(let i = 0; i <= 5; i++){
+                //     formData.append('file', $data.files[i]);
+                // }
+
+                // //FormData 객체를 보낼 때는 따로 headers 설정을 진행하지 않습니다.
+                // fetch('${pageContext.request.contextPath}/freeboard/upload', {
+                //         method: 'post',
+                //         body: formData[i]
+                //     })
+                //     .then(res => res.text())
+                //     .then(data => {
+                //         console.log(data);
+                //         document.getElementById('file').value = ''; //file input 비우기
+                //         document.querySelector('.fileDiv').style.display = 'none'; //미리보기 감추기
+                // });
+                const $data = document.getElementById('file');
+                const formData = new FormData();
+
+                for (let i = 0; i < $data.files.length; i++) {
+                    const file = $data.files[i];
+                    const extension = getFileExtension(file.name); // 확장자 추출 함수 사용
+
+                    // 파일 확장자를 로우케이스로 변경하여 추가
+                    formData.append('file', file, `${i + 1}.${extension}`);
+
+                    // 전체 파일 업로드 완료 후에 fetch를 사용하여 서버로 요청 보내기
+                    if (i === $data.files.length - 1) {
+                        fetch('${pageContext.request.contextPath}/freeboard/upload', {
+                            method: 'post',
+                            body: formData
+                        })
+                        .then(res => res.text())
+                        .then(data => {
+                            console.log(data);
+                            document.getElementById('file').value = ''; // 파일 input 비우기
+                            document.querySelector('.fileDiv').style.display = 'none'; // 미리보기 감추기
+                        });
+                    }
+                }
+
+                function getFileExtension(filename) {
+                    return filename.slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
+                }
+
+
 
                 const titleValue = titleInput.value;
                 const writerValue = writerInput.value;

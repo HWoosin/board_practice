@@ -143,7 +143,16 @@
 	    ORDER BY origin_bno DESC, group_ord ASC;
 	</select>
 	
-
+	
+	<!-- 파일 업로드 -->
+	<insert id="insertfile">
+		INSERT INTO fileInfo
+	    VALUES((SELECT MAX(bno) FROM freeboard), #{uploadPath}, #{fileLoca}, #{fileName}, #{fileRealName})
+	</insert>
+	
+	<select id ="viewfile" resultType="UDFile">
+		select * from fileInfo where bno = #{bno}
+	</select>
 </mapper>
 
 
