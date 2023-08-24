@@ -139,15 +139,6 @@ public class FreeBoardService implements IFreeBoardService {
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
 		
-		int i = 0;
-		while (i < file.size()) {
-			if (file.get(i).isEmpty()) {
-				file.remove(i);
-			} else {
-				i++;
-			}
-		}
-		
 		//리스트로 들어오면 모든 파일 입력
 		for(MultipartFile f : file) {
 			String fileRealName = f.getOriginalFilename();

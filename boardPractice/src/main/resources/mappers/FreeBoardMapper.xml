@@ -146,8 +146,8 @@
 	
 	<!-- 파일 업로드 -->
 	<insert id="insertfile">
-		INSERT INTO fileInfo
-	    VALUES((SELECT MAX(bno) FROM freeboard), #{uploadPath}, #{fileRealName}, #{fileName}, #{fileLoca})
+		INSERT INTO fileInfo (bno, upload_path, file_loca, file_name, file_real_name)
+	    VALUES((SELECT MAX(bno) FROM freeboard), #{uploadPath},#{fileLoca}, #{fileName}, #{fileRealName})
 	</insert>
 	
 	<select id ="viewfile" resultType="UDFile">
