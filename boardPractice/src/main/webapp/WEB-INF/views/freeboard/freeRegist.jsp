@@ -104,37 +104,116 @@
             }
 
             //파일 목록 띄우기
+            // const fileInput = document.getElementById('file');
+            // const fileListBox = document.querySelector('.file-list');
+
+            // fileInput.addEventListener('change', function() {
+            //     fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
+
+            //     const selectedFiles = fileInput.files;
+
+            //     for (let i = 0; i < selectedFiles.length; i++) {
+            //         const file = selectedFiles[i];
+            //         const fileDiv = document.createElement('div');
+                    
+            //         const fileNameSpan = document.createElement('span');
+            //         fileNameSpan.textContent = file.name;
+                    
+            //         const deleteButton = document.createElement('button');
+            //         deleteButton.textContent = 'Delete';
+            //         deleteButton.addEventListener('click', function() {
+            //             fileDiv.remove(); // 해당 파일 요소 삭제
+            //         });
+
+            //         fileDiv.appendChild(fileNameSpan);
+            //         fileDiv.appendChild(deleteButton);
+            //         fileListBox.appendChild(fileDiv);
+            //     }
+            // });
+
+            // const fileInput = document.getElementById('file');
+            // const fileListBox = document.querySelector('.file-list');
+            // const fileInput = document.getElementById('file');
+            // const fileListBox = document.querySelector('.file-list');
+            // const form = document.getElementById('upload-form');
+            // const formData = new FormData();
+
+            // fileInput.addEventListener('change', function() {
+            //     fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
+
+            //     const selectedFiles = fileInput.files;
+
+            //     for (let i = 0; i < selectedFiles.length; i++) {
+            //         const file = selectedFiles[i];
+            //         const fileDiv = document.createElement('div');
+
+            //         const fileNameSpan = document.createElement('span');
+            //         fileNameSpan.textContent = file.name;
+
+            //         const deleteButton = document.createElement('button');
+            //         deleteButton.textContent = 'Delete';
+            //         deleteButton.addEventListener('click', function() {
+            //             fileDiv.remove(); // 해당 파일 요소 삭제
+            //             formData.delete('file', file); // FormData에서 삭제
+            //             console.log(file);
+            //             console.log(selectedFiles.length);
+            //         });
+
+            //         fileDiv.appendChild(fileNameSpan);
+            //         fileDiv.appendChild(deleteButton);
+            //         fileListBox.appendChild(fileDiv);
+
+            //         formData.append('file', file); // FormData에 추가
+            //         console.log(formData);
+            //     }
+            // });
+
             const fileInput = document.getElementById('file');
             const fileListBox = document.querySelector('.file-list');
+            const form = document.getElementById('upload-form');
+            const formData = new FormData();
+            const selectedFiles = [];
 
-            fileInput.addEventListener('change', function() {
+            fileInput.addEventListener('change', function() { //목록 보여주기
                 fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
 
-                const selectedFiles = fileInput.files;
+                const newSelectedFiles = Array.from(fileInput.files);
 
-                for (let i = 0; i < selectedFiles.length; i++) {
-                    const file = selectedFiles[i];
-                    const fileDiv = document.createElement('div');
-                    
-                    const fileNameSpan = document.createElement('span');
-                    fileNameSpan.textContent = file.name;
-                    
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.addEventListener('click', function() {
-                        fileDiv.remove(); // 해당 파일 요소 삭제
-                    });
+                for (let i = 0; i < newSelectedFiles.length; i++) {
+                    const file = newSelectedFiles[i];
+                    selectedFiles.push(file);
 
-                    fileDiv.appendChild(fileNameSpan);
-                    fileDiv.appendChild(deleteButton);
+                    const fileDiv = createFileDiv(file);
                     fileListBox.appendChild(fileDiv);
+                    console.log(selectedFiles[i]);
                 }
             });
 
+            function createFileDiv(file) {//리스트에 파일 담기 
+                const fileDiv = document.createElement('div');
+                const fileNameSpan = document.createElement('span');
+                fileNameSpan.textContent = file.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', function() {
+                    const index = selectedFiles.indexOf(file);
+                    if (index !== -1) {
+                        selectedFiles.splice(index, 1);
+                        fileDiv.remove();
+                    }
+                    console.log(selectedFiles.length);
+                    console.log(selectedFiles.indexOf(file));
+                });
+
+                fileDiv.appendChild(fileNameSpan);
+                fileDiv.appendChild(deleteButton);
+                return fileDiv;
+            }
+
             //https://purecho.tistory.com/68
-            //파일등록
             // var fileNo = 0;
-            // var filesArr = new Array();
+            // // var filesArr = new Array();
 
             // /* 첨부파일 추가 */
             // function addFile(obj){
@@ -160,8 +239,8 @@
             //                 // 목록 추가
             //                 let htmlData = '';
             //                 htmlData += '<div id="file' + fileNo + '" class="filebox">';
-            //                 htmlData += '   <p class="name">' + file.name + '</p>';
-            //                 htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+            //                 htmlData += '   <p class="name" style="display:inline">' + file.name + '</p>';
+            //                 htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');">&nbsp;<button>삭제</button></a>';
             //                 htmlData += '</div>';
             //                 $('.file-list').append(htmlData);
             //                 fileNo++;
@@ -197,12 +276,17 @@
             // /* 첨부파일 삭제 */
             // function deleteFile(num) {
             //     document.querySelector("#file" + num).remove();
-            //     filesArr[num].is_delete = true;
+            //     selectedFiles[num].is_delete = true;
             // }
 
 
             //글 등록
             registBtn.onclick = function() {
+
+                //리스트에 담은 파일 전송
+                selectedFiles.forEach(file => {
+                    formData.append('files[]', file);
+                });
 
                 const titleValue = titleInput.value;
                 const writerValue = writerInput.value;

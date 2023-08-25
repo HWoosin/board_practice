@@ -132,12 +132,21 @@ public class FreeBoardService implements IFreeBoardService {
 		
 		//기본 경로 C:/test/upload로 사용.
 		String uploadPath = "C:/test/upload/";
-		//폴더 없으면 새롭게 생성해 주시라
+		//폴더 없으면 새롭게 생성
 		File folder = new File(uploadPath + fileLoca);
 		if(!folder.exists()) folder.mkdirs();
 		
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
+		
+		int i = 0;
+		while (i < file.size()) {
+			if (file.get(i).isEmpty()) {
+				file.remove(i);
+			} else {
+				i++;
+			}
+		}
 		
 		//리스트로 들어오면 모든 파일 입력
 		for(MultipartFile f : file) {
