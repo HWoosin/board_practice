@@ -77,8 +77,15 @@ public class FreeBoardService implements IFreeBoardService {
 	}
 
 	@Override
-	public void update(FreeBoardVO vo) {
+	public void update(FreeBoardVO vo, List<MultipartFile> file) {
 		mapper.update(vo);
+		mapper.deleteAllFiles(vo.getBno());
+		if(file != null) {
+			System.out.println(vo.getBno());
+			log.info(file.toString());
+			updatefile(vo.getBno(), file);	
+		}
+		
 
 	}
 	
@@ -113,15 +120,17 @@ public class FreeBoardService implements IFreeBoardService {
 //	}
 
 	@Override
-	public void replyRegist(FreeBoardVO vo) {
+	public void replyRegist(FreeBoardVO vo,List<MultipartFile> file) {
 		
 		FreeBoardVO rep = vo;
 		mapper.updatePos(vo.getOriginBno(),vo.getGroupOrd());//기존글들의 순서를 한층씩 다 밀어내고
 		rep.setGroupOrd(rep.getGroupOrd()+1);//새로 작성된 글의 순서를 원글에서 +1하고
 		mapper.replyRegist(rep);//자리가 지정된 글을 등록
+		if(file != null) {
+			insertfile(file);			
+		}
 
 	}
-	
 	
 	public void insertfile(List<MultipartFile> file) {
 
@@ -139,14 +148,14 @@ public class FreeBoardService implements IFreeBoardService {
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
 		
-		int i = 0;
-		while (i < file.size()) {
-			if (file.get(i).isEmpty()) {
-				file.remove(i);
-			} else {
-				i++;
-			}
-		}
+//		int i = 0;
+//		while (i < file.size()) {
+//			if (file.get(i).isEmpty()) {
+//				file.remove(i);
+//			} else {
+//				i++;
+//			}
+//		}
 		
 		//리스트로 들어오면 모든 파일 입력
 		for(MultipartFile f : file) {
@@ -182,6 +191,70 @@ public class FreeBoardService implements IFreeBoardService {
 			vo.setFileRealName(fileRealName);
 			
 			mapper.insertfile(vo);
+		}
+		
+	}
+	
+	public void updatefile(int bno, List<MultipartFile> file) {
+
+		//날짜별로 폴더를 생성해서 관리할 예정.
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String fileLoca = now.format(dtf);
+		
+		//기본 경로 C:/test/upload로 사용.
+		String uploadPath = "C:/test/upload/";
+		//폴더 없으면 새롭게 생성
+		File folder = new File(uploadPath + fileLoca);
+		if(!folder.exists()) folder.mkdirs();
+		
+		//저장될 파일명은 uuid를 이용한 파일명으로 저장
+		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
+		
+//		int i = 0;
+//		while (i < file.size()) {
+//			if (file.get(i).isEmpty()) {
+//				file.remove(i);
+//			} else {
+//				i++;
+//			}
+//		}
+		
+		//리스트로 들어오면 모든 파일 입력
+		for(MultipartFile f : file) {
+			String fileRealName = f.getOriginalFilename();
+			UUID uuid = UUID.randomUUID();
+			String uuids = uuid.toString().replaceAll("-", "");
+			
+			//확장자 추출
+			String fileExtension= fileRealName.substring(fileRealName.lastIndexOf("."));
+			
+			log.info("저장할 폴더 경로: "+ uploadPath);
+			log.info("실제 파일명: "+ fileRealName);
+			log.info("폴더명: "+ fileLoca);
+			log.info("확장자: "+ fileExtension);
+			log.info("고유랜덤문자: "+ uuids);
+			
+			String fileName = uuids + fileExtension;
+			log.info("변경해서 저장할 파일명: "+ fileName);
+			
+			//업로드한 파일을 지정한 로컬 경로로 전송
+			File saveFile = new File(uploadPath + fileLoca + "/" + fileName);
+			try {
+				f.transferTo(saveFile);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			
+			UDFileVO vo = new UDFileVO();
+			vo.setBno(bno);
+			vo.setUploadPath(uploadPath);
+			vo.setFileLoca(fileLoca);
+			vo.setFileName(fileName);
+			vo.setFileRealName(fileRealName);
+			
+			mapper.updatefile(vo);
 		}
 		
 	}

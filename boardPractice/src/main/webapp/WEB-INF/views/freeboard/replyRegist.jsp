@@ -38,8 +38,8 @@
                                 <div class="reply-content">
                                     <div class="reply-group">
                                         <div class="filebox pull-left">
-                                            <label for="file">파일 업로드</label>
-                                            <input type="file" name="file" id="file" multiple>
+                                            <label for="file">파일 업로드 ➕</label>
+                                            <input type="file" name="file" id="file" style="display:none;" multiple>
                                             <div class="file-list"></div>
                                         </div>
                                     </div>
@@ -110,22 +110,37 @@
                 }
             }
 
-            //파일 목록 띄우기
-            const fileInput = document.getElementById('file');
+           //파일등록
+           const fileInput = document.getElementById('file');
             const fileListBox = document.querySelector('.file-list');
+            const form = document.getElementById('upload-form');
+            const formData = new FormData();
+            const selectedFiles = [];
 
-            fileInput.addEventListener('change', function() {
+            fileInput.addEventListener('change', function() { //목록 보여주기
                 fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
 
-                const selectedFiles = fileInput.files;
+                const newSelectedFiles = Array.from(fileInput.files);
 
-                for (let i = 0; i < selectedFiles.length; i++) {
-                    const file = selectedFiles[i];
-                    const fileNameDiv = document.createElement('div');
-                    fileNameDiv.textContent = file.name;
-                    fileListBox.appendChild(fileNameDiv);
+                for (let i = 0; i < newSelectedFiles.length; i++) {
+                    const file = newSelectedFiles[i];
+                    selectedFiles.push(file);
+
+                    const fileDiv = createFileDiv(file);
+                    fileListBox.appendChild(fileDiv);
+                    console.log(selectedFiles[i]);
                 }
             });
+
+            function createFileDiv(file) {
+                const fileDiv = document.createElement('div');
+                const fileNameSpan = document.createElement('p');
+                fileNameSpan.textContent = file.name;
+
+                fileDiv.appendChild(fileNameSpan);
+                return fileDiv;
+            }
+
 
 
             //글 등록
@@ -193,6 +208,10 @@
                     }
                 else{
                     console.log(titleValue);
+                    //리스트에 담은 파일 전송
+                    selectedFiles.forEach(file => {
+                        formData.append('files[]', file);
+                    });
                     $form.submit();
                 }
 

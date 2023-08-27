@@ -31,21 +31,21 @@ public interface IFreeBoardService {
 	boolean getContent(int bno, String pw);
 	
 	//수정
-	void update(FreeBoardVO vo);
+	void update(FreeBoardVO vo, List<MultipartFile> file);
 	
 			
 	//답글없을경우 완전삭제
 	void delete(FreeBoardVO vo);
 	
 	//답글 등록
-	void replyRegist(FreeBoardVO vo);
+	void replyRegist(FreeBoardVO vo, List<MultipartFile> file);
 	
 	//엑셀다운
 	void getExcel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	
 	//파일업로드
-//	void insertfile(UDFileVO vo, List<MultipartFile> file);
+//	void insertfile(List<MultipartFile> file);
 
 	//가지고있는 파일 가져오기
 	List<UDFileVO> viewfile(int bno);

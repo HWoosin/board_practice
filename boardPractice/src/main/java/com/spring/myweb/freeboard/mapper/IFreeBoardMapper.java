@@ -64,5 +64,11 @@ public interface IFreeBoardMapper {
 
 		//가지고있는 파일 가져오기
 		List<UDFileVO> viewfile(int bno);
+		
+		//업데이트 전 파일 모두 지우기
+		void deleteAllFiles(int bno);
+		
+		//수정페이지에서 파일 새로 넣기
+		void updatefile(UDFileVO vo);
 
 }

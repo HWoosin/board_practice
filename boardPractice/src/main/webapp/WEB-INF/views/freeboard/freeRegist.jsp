@@ -34,16 +34,19 @@
                             </div>
 
                             <div class="form-group">
-                                <!-- 파일 업로드 폼입니다 -->
                                     <div class="reply-group">
                                         <div class="filebox pull-left">
-                                            <label for="file">파일 업로드</label>
-                                            <input type="file" name="file" id="file" multiple>
+                                            <label for="file">파일 업로드 ➕</label>
+                                            <input type="file" name="file" id="file" style="display:none;" multiple>
                                             <div class="file-list"></div>
                                         </div>
                                     </div>
-                                <!-- 파일 업로드 폼 끝 -->
                             </div>
+                            <!-- <div id="file-upload-container">
+                                <label class="upload-label">파일 업로드</label>
+                                <button type="button" class="btn" id="uploadPlusBtn">+</button>
+                                <button type="button" class="btn" id="uploadMinusBtn">-</button>
+                            </div> -->
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
@@ -103,71 +106,7 @@
                 }
             }
 
-            //파일 목록 띄우기
-            // const fileInput = document.getElementById('file');
-            // const fileListBox = document.querySelector('.file-list');
-
-            // fileInput.addEventListener('change', function() {
-            //     fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
-
-            //     const selectedFiles = fileInput.files;
-
-            //     for (let i = 0; i < selectedFiles.length; i++) {
-            //         const file = selectedFiles[i];
-            //         const fileDiv = document.createElement('div');
-                    
-            //         const fileNameSpan = document.createElement('span');
-            //         fileNameSpan.textContent = file.name;
-                    
-            //         const deleteButton = document.createElement('button');
-            //         deleteButton.textContent = 'Delete';
-            //         deleteButton.addEventListener('click', function() {
-            //             fileDiv.remove(); // 해당 파일 요소 삭제
-            //         });
-
-            //         fileDiv.appendChild(fileNameSpan);
-            //         fileDiv.appendChild(deleteButton);
-            //         fileListBox.appendChild(fileDiv);
-            //     }
-            // });
-
-            // const fileInput = document.getElementById('file');
-            // const fileListBox = document.querySelector('.file-list');
-            // const fileInput = document.getElementById('file');
-            // const fileListBox = document.querySelector('.file-list');
-            // const form = document.getElementById('upload-form');
-            // const formData = new FormData();
-
-            // fileInput.addEventListener('change', function() {
-            //     fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
-
-            //     const selectedFiles = fileInput.files;
-
-            //     for (let i = 0; i < selectedFiles.length; i++) {
-            //         const file = selectedFiles[i];
-            //         const fileDiv = document.createElement('div');
-
-            //         const fileNameSpan = document.createElement('span');
-            //         fileNameSpan.textContent = file.name;
-
-            //         const deleteButton = document.createElement('button');
-            //         deleteButton.textContent = 'Delete';
-            //         deleteButton.addEventListener('click', function() {
-            //             fileDiv.remove(); // 해당 파일 요소 삭제
-            //             formData.delete('file', file); // FormData에서 삭제
-            //             console.log(file);
-            //             console.log(selectedFiles.length);
-            //         });
-
-            //         fileDiv.appendChild(fileNameSpan);
-            //         fileDiv.appendChild(deleteButton);
-            //         fileListBox.appendChild(fileDiv);
-
-            //         formData.append('file', file); // FormData에 추가
-            //         console.log(formData);
-            //     }
-            // });
-
+            //파일등록
             const fileInput = document.getElementById('file');
             const fileListBox = document.querySelector('.file-list');
             const form = document.getElementById('upload-form');
@@ -189,104 +128,99 @@
                 }
             });
 
-            function createFileDiv(file) {//리스트에 파일 담기 
+            function createFileDiv(file) {
                 const fileDiv = document.createElement('div');
-                const fileNameSpan = document.createElement('span');
+                const fileNameSpan = document.createElement('p');
                 fileNameSpan.textContent = file.name;
 
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.addEventListener('click', function() {
-                    const index = selectedFiles.indexOf(file);
-                    if (index !== -1) {
-                        selectedFiles.splice(index, 1);
-                        fileDiv.remove();
-                    }
-                    console.log(selectedFiles.length);
-                    console.log(selectedFiles.indexOf(file));
-                });
-
                 fileDiv.appendChild(fileNameSpan);
-                fileDiv.appendChild(deleteButton);
                 return fileDiv;
             }
 
-            //https://purecho.tistory.com/68
-            // var fileNo = 0;
-            // // var filesArr = new Array();
+            //파일 등록
+            // let fileNo = 0  // 첨부된 이미지 총 갯수 (삭제되도 줄어들지않음). 이미지마다 다른 id를 지정하기 위함
+            // let filesArr = []  // 첨부된 모든 파일 리스트 (삭제되도 제거되지않음)
 
-            // /* 첨부파일 추가 */
-            // function addFile(obj){
-            //     var maxFileCnt = 5;   // 첨부파일 최대 개수
-            //     var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-            //     var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-            //     var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+            // function fileUpload(obj) {  // 파일을 인자값으로 받음
 
+            //     let maxFileCnt = 5   // 첨부파일 최대 개수
+            //     let attFileCnt = document.querySelectorAll('.filebox').length    // 기존 추가된 첨부파일 개수
+            //                                                                     // 업로드를 하면 바디에 생성된 태그 갯수로 계산
+            //     let remainFileCnt = maxFileCnt - attFileCnt    // 추가로 첨부가능한 개수
+            //     let curFileCnt = obj.files.length  // 현재 선택된 첨부파일 개수
+                
             //     // 첨부파일 개수 확인
+            //     // 최대 개수 초과 시
             //     if (curFileCnt > remainFileCnt) {
-            //         alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-            //     } else {
-            //         for (const file of obj.files) {
-            //             // 첨부파일 검증
-            //             if (validation(file)) {
-            //                 // 파일 배열에 담기
-            //                 var reader = new FileReader();
-            //                 reader.onload = function () {
-            //                     filesArr.push(file);
-            //                 };
-            //                 reader.readAsDataURL(file);
+            //         alert("이미지는 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.")
+            //     }
 
-            //                 // 목록 추가
-            //                 let htmlData = '';
-            //                 htmlData += '<div id="file' + fileNo + '" class="filebox">';
-            //                 htmlData += '   <p class="name" style="display:inline">' + file.name + '</p>';
-            //                 htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');">&nbsp;<button>삭제</button></a>';
-            //                 htmlData += '</div>';
-            //                 $('.file-list').append(htmlData);
-            //                 fileNo++;
-            //             } else {
-            //                 continue;
-            //             }
+            //     // 최대 개수 넘지 않았을 시
+            //     else {
+            //         // 첨부된 복수의 파일 하나씩
+            //         for (const file of obj.files) {
+                        
+            //             // 파일 배열에 담기
+            //             filesArr.push(file)  // 파일 리스트에 추가
+                        
+            //             // 이미지 목록에 추가
+            //             // 업로드한 파일마다 파일이름과 삭제 가능한 버튼을 문서에 붙인다
+            //             let htmlData = ''
+            //             htmlData += '<div id="file' + fileNo + '" class="filebox">'
+            //             htmlData += '   <p class="name" style="display:inline">' + file.name + '</p>'
+            //             htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ')">❌</a>'  // 온클릭 이벤트 추가하고 해당 파일을 파라미터에 담음
+            //             htmlData += '</div>'
+            //             $('.file-list').append(htmlData)
+            //             filesArr[fileNo].is_delete=false;
+
+            //             fileNo++  // 파일 번호 +1
+            //             console.log("생성배열:", filesArr);
             //         }
             //     }
-            //     // 초기화
-            //     document.querySelector("input[type=file]").value = "";
             // }
 
-            // /* 첨부파일 검증 */
-            // function validation(obj){
-            //     const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-            //     if (obj.name.length > 100) {
-            //         alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-            //         return false;
-            //     } else if (obj.size > (100 * 1024 * 1024)) {
-            //         alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-            //         return false;
-            //     } else if (obj.name.lastIndexOf('.') == -1) {
-            //         alert("확장자가 없는 파일은 제외되었습니다.");
-            //         return false;
-            //     } else if (!fileTypes.includes(obj.type)) {
-            //         alert("첨부가 불가능한 파일은 제외되었습니다.");
-            //         return false;
-            //     } else {
-            //         return true;
-            //     }
-            // }
-
-            // /* 첨부파일 삭제 */
+            // // 첨부파일 삭제
+            // // 동적으로 생성된 html 태그에서 파일 이름 옆 ❌버튼을 누르면 작동
             // function deleteFile(num) {
-            //     document.querySelector("#file" + num).remove();
-            //     selectedFiles[num].is_delete = true;
+            //     document.querySelector("#file" + num).remove()
+            //     filesArr[num].is_delete = true  // 파일 리스트의 해당 인덱스에 is_delete=false 라는 키와 값을 추가한다
+            //     console.log(num);
+            //     console.log(filesArr);
+            //     console.log(filesArr[num].is_delete);
+            //     /*
+            //     배열을 삭제하지 않고 남겨두는 이유는
+            //     fileNo를 통해서 순서대로 리스트에 추가했고
+            //     fileNo로 index 조회를 하고있기에
+            //     fileNo와 리스트에 저장된 index 번호가 달라지면 안되기 때문이다
+            //     */
+
+            //      // 파일을 제거한 새로운 배열 생성
+            //     const updatedFilesArr = filesArr.filter(file => !file.is_delete);
+
+            //     filesArr = updatedFilesArr; // 기존 filesArr 배열을 업데이트된 배열로 덮어쓰기
+            //     console.log("삭제된 파일:", filesArr[num]);
+            //     console.log("업데이트된 배열:", filesArr);
             // }
 
+            // const $fileUploadContainer = document.getElementById('file-upload-container');
+            // //파일 업로드 추가
+            // document.getElementById('uploadPlusBtn').addEventListener('click', e => {
+            //     e.preventDefault();
+            //     const str = `<br><input type="file" name="file">`;
+            //     $fileUploadContainer.insertAdjacentHTML('beforeend', str);
+            // });
+
+            // //파일 업로드 빼기
+            // document.getElementById('uploadMinusBtn').addEventListener('click', e => {
+            //     e.preventDefault();
+            //     if($fileUploadContainer.lastElementChild.tagName === 'INPUT') {
+            //         $fileUploadContainer.lastElementChild.remove();
+            //         $fileUploadContainer.lastElementChild.remove();
+            //     }
+            // });
 
             //글 등록
             registBtn.onclick = function() {
-
-                //리스트에 담은 파일 전송
-                selectedFiles.forEach(file => {
-                    formData.append('files[]', file);
-                });
 
                 const titleValue = titleInput.value;
                 const writerValue = writerInput.value;
@@ -350,9 +284,26 @@
                     }
                 else{
                     console.log(titleValue);
+                    // // 폼데이터에 담기
+                    // let formData = new FormData()	// 폼데이터 객체 생성
+
+                    // for (let i = 0; i < filesArr.length; i++) {
+                    //     // 삭제되지 않은 파일만 폼데이터에 담기
+                    //     console.log(filesArr);
+                    //     if (filesArr[i].is_delete === false) {
+                    //         formData.append('file', filesArr[i])
+                    //     }
+                    // }
+                    // for (const pair of formData.entries()) {
+                    //     console.log(pair[0], pair[1]);
+                    // }
+
+                    //리스트에 담은 파일 전송
+                    selectedFiles.forEach(file => {
+                        formData.append('files[]', file);
+                    });
                     $form.submit();
                 }
-
             }
             
             //작성자 글자수 제한

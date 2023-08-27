@@ -99,13 +99,14 @@ public class FreeBoardController {
 	@PostMapping("/modify")
 	public String modify(@ModelAttribute("article") FreeBoardVO vo, Model model) {
 		model.addAttribute("article", service.getDetail(vo.getBno()));
+		model.addAttribute("fileInfo", service.viewfile(vo.getBno()));
 		return "freeboard/freeModify";
 	}
 	
 	//글 수정 처리
 	@PostMapping("/update")
-	public String update(FreeBoardVO vo) {
-		service.update(vo);
+	public String update(FreeBoardVO vo, List<MultipartFile> file) {
+		service.update(vo,file);
 		return "redirect:/freeboard/content/" + vo.getBno();
 	}
 	
@@ -131,8 +132,8 @@ public class FreeBoardController {
 	}
 	//답글 등록 처리
 	@PostMapping("/replyBoard")
-	public String replyBoard(FreeBoardVO vo) {
-		service.replyRegist(vo);
+	public String replyBoard(FreeBoardVO vo, List<MultipartFile> file) {
+		service.replyRegist(vo, file);
 		return "redirect:/freeboard/freeList";
 	}
 	
@@ -146,10 +147,8 @@ public class FreeBoardController {
 	
 	//파일업로드
 //	@PostMapping("/upload")
-//	public String upload(List<MultipartFile> file, UDFileVO vo) {
-//		service.insertfile(vo, file);
-//		return "success";
-//		
+//	public void upload(List<MultipartFile> file) {
+//		service.insertfile(file);
 //	}
 	
 	//파일다운로드
