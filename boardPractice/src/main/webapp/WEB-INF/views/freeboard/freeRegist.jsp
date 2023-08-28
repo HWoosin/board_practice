@@ -36,17 +36,11 @@
                             <div class="form-group">
                                     <div class="reply-group">
                                         <div class="filebox pull-left">
-                                            <label for="file">파일 업로드 ➕</label>
-                                            <input type="file" name="file" id="file" style="display:none;" multiple>
+                                            <button type="button" id="makefile" class="btn btn-primary">파일 추가 ➕</button><br>
                                             <div class="file-list"></div>
                                         </div>
                                     </div>
                             </div>
-                            <!-- <div id="file-upload-container">
-                                <label class="upload-label">파일 업로드</label>
-                                <button type="button" class="btn" id="uploadPlusBtn">+</button>
-                                <button type="button" class="btn" id="uploadMinusBtn">-</button>
-                            </div> -->
                             
                             <div class="form-group">
                                 <label>비밀번호</label>
@@ -107,35 +101,35 @@
             }
 
             //파일등록
-            const fileInput = document.getElementById('file');
-            const fileListBox = document.querySelector('.file-list');
-            const form = document.getElementById('upload-form');
-            const formData = new FormData();
-            const selectedFiles = [];
+            // const fileInput = document.getElementById('file');
+            // const fileListBox = document.querySelector('.file-list');
+            // const form = document.getElementById('upload-form');
+            // const formData = new FormData();
+            // const selectedFiles = [];
 
-            fileInput.addEventListener('change', function() { //목록 보여주기
-                fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
+            // fileInput.addEventListener('change', function() { //목록 보여주기
+            //     fileListBox.innerHTML = ''; // 이전 파일 목록 지우기
 
-                const newSelectedFiles = Array.from(fileInput.files);
+            //     const newSelectedFiles = Array.from(fileInput.files);
 
-                for (let i = 0; i < newSelectedFiles.length; i++) {
-                    const file = newSelectedFiles[i];
-                    selectedFiles.push(file);
+            //     for (let i = 0; i < newSelectedFiles.length; i++) {
+            //         const file = newSelectedFiles[i];
+            //         selectedFiles.push(file);
 
-                    const fileDiv = createFileDiv(file);
-                    fileListBox.appendChild(fileDiv);
-                    console.log(selectedFiles[i]);
-                }
-            });
+            //         const fileDiv = createFileDiv(file);
+            //         fileListBox.appendChild(fileDiv);
+            //         console.log(selectedFiles[i]);
+            //     }
+            // });
 
-            function createFileDiv(file) {
-                const fileDiv = document.createElement('div');
-                const fileNameSpan = document.createElement('p');
-                fileNameSpan.textContent = file.name;
+            // function createFileDiv(file) {
+            //     const fileDiv = document.createElement('div');
+            //     const fileNameSpan = document.createElement('p');
+            //     fileNameSpan.textContent = file.name;
 
-                fileDiv.appendChild(fileNameSpan);
-                return fileDiv;
-            }
+            //     fileDiv.appendChild(fileNameSpan);
+            //     return fileDiv;
+            // }
 
             //파일 등록
             // let fileNo = 0  // 첨부된 이미지 총 갯수 (삭제되도 줄어들지않음). 이미지마다 다른 id를 지정하기 위함
@@ -181,43 +175,72 @@
 
             // // 첨부파일 삭제
             // // 동적으로 생성된 html 태그에서 파일 이름 옆 ❌버튼을 누르면 작동
+            // var selFile = document.querySelector("input[type=file]");
             // function deleteFile(num) {
             //     document.querySelector("#file" + num).remove()
             //     filesArr[num].is_delete = true  // 파일 리스트의 해당 인덱스에 is_delete=false 라는 키와 값을 추가한다
+
+            //     var dt = new DataTransfer()
+            //     var { files } = selFile;
+
+            //     for (var i = 0; i < files.length; i++) {
+            //         var file = files[i];
+            //         if (num !== i) dt.items.add(file);
+            //         selFile.files = dt.files;
+            //     }
+
+                
             //     console.log(num);
             //     console.log(filesArr);
-            //     console.log(filesArr[num].is_delete);
+            //     console.log(dt);
             //     /*
             //     배열을 삭제하지 않고 남겨두는 이유는
             //     fileNo를 통해서 순서대로 리스트에 추가했고
             //     fileNo로 index 조회를 하고있기에
             //     fileNo와 리스트에 저장된 index 번호가 달라지면 안되기 때문이다
             //     */
-
-            //      // 파일을 제거한 새로운 배열 생성
-            //     const updatedFilesArr = filesArr.filter(file => !file.is_delete);
-
-            //     filesArr = updatedFilesArr; // 기존 filesArr 배열을 업데이트된 배열로 덮어쓰기
-            //     console.log("삭제된 파일:", filesArr[num]);
-            //     console.log("업데이트된 배열:", filesArr);
             // }
 
-            // const $fileUploadContainer = document.getElementById('file-upload-container');
-            // //파일 업로드 추가
-            // document.getElementById('uploadPlusBtn').addEventListener('click', e => {
-            //     e.preventDefault();
-            //     const str = `<br><input type="file" name="file">`;
-            //     $fileUploadContainer.insertAdjacentHTML('beforeend', str);
-            // });
+            //파일등록삭제
+            const filebox = document.querySelector('.filebox');
+            let fileNo = 0;
 
-            // //파일 업로드 빼기
-            // document.getElementById('uploadMinusBtn').addEventListener('click', e => {
-            //     e.preventDefault();
-            //     if($fileUploadContainer.lastElementChild.tagName === 'INPUT') {
-            //         $fileUploadContainer.lastElementChild.remove();
-            //         $fileUploadContainer.lastElementChild.remove();
-            //     }
-            // });
+            document.getElementById('makefile').onclick = function(){
+                let htmlData = ''
+                htmlData += '<div id="file' + fileNo + '" class="filebox">'
+                    htmlData += '<input type="file" class="btn btn-dark" style="display:inline" name="file" id="file'+fileNo+'" onchange="validateFile(' + fileNo + ', this)">'; // 유효성 검증 함수 추가
+                htmlData += '<button type="button" class="delete" onclick="deleteFile(' + fileNo + ')">❌</button>'
+                htmlData += '</div>'
+                $('.file-list').append(htmlData);
+                fileNo++;
+            };
+            
+            function deleteFile(num) {
+                document.querySelector("#file" + num).remove()//해당되는 것 삭제
+            }
+
+            function validateFile(fileNo, input) {
+            const file = input.files[0];
+            
+            // 파일 유형 검증
+            const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('유효한 파일 유형이 아닙니다. (jpeg, png, pdf만 허용)');
+                input.value = ''; // 선택한 파일 초기화
+                return;
+            }
+            
+            // 파일 사이즈 검증 (1MB 제한)
+            const maxSize = 1024 * 1024; // 1MB
+            if (file.size > maxSize) {
+                alert('파일 크기가 너무 큽니다. 1MB 이하의 파일만 허용됩니다.');
+                input.value = ''; // 선택한 파일 초기화
+                return;
+            }
+            
+            // 유효성 검증 통과
+            // 여기서 필요한 추가 동작 수행 가능
+        }
 
             //글 등록
             registBtn.onclick = function() {
@@ -284,24 +307,6 @@
                     }
                 else{
                     console.log(titleValue);
-                    // // 폼데이터에 담기
-                    // let formData = new FormData()	// 폼데이터 객체 생성
-
-                    // for (let i = 0; i < filesArr.length; i++) {
-                    //     // 삭제되지 않은 파일만 폼데이터에 담기
-                    //     console.log(filesArr);
-                    //     if (filesArr[i].is_delete === false) {
-                    //         formData.append('file', filesArr[i])
-                    //     }
-                    // }
-                    // for (const pair of formData.entries()) {
-                    //     console.log(pair[0], pair[1]);
-                    // }
-
-                    //리스트에 담은 파일 전송
-                    selectedFiles.forEach(file => {
-                        formData.append('files[]', file);
-                    });
                     $form.submit();
                 }
             }
