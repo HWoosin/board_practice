@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -106,7 +105,7 @@ public class FreeBoardController {
 	
 	//글 수정 처리
 	@PostMapping("/update")
-	public String update(FreeBoardVO vo, @RequestParam(value="file",required = false) List<MultipartFile> file, @RequestParam(value = "fileName", required = false)List<String> fileName) {
+	public String update(FreeBoardVO vo, List<MultipartFile> file, @RequestParam(value = "fileName", required = false)List<String> fileName) {
 		service.update(vo,file, fileName);
 		return "redirect:/freeboard/content/" + vo.getBno();
 	}
@@ -146,7 +145,9 @@ public class FreeBoardController {
 	
 	//엑셀다운
 	@GetMapping("/downloadExcel")
-	public void Excel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void Excel(PageVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PageCreator pc = new PageCreator(vo, service.getTotal(vo));
+		log.info(pc.toString());
 	    service.getExcel(vo, request, response);
 	 
 	}

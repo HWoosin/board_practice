@@ -41,7 +41,7 @@ public interface IFreeBoardService {
 	void replyRegist(FreeBoardVO vo, List<MultipartFile> file);
 	
 	//엑셀다운
-	void getExcel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	void getExcel(PageVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	
 	//파일업로드

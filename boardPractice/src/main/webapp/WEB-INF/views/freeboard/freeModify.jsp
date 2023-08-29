@@ -43,11 +43,12 @@
                                     <div>
                                         <c:forEach var="file" items="${fileInfo}">
                                             <input type="hidden" value="${file.fileName}">
+                                            <div>
                                             <p style="display: inline;">${file.fileRealName}</p>
                                             <button type="button" class="exDelete">❌</button>
                                             <br>
+                                            </div>
                                         </c:forEach>
-                                    </div>
                             </div>
                             <div class="form-group">
                                 <div class="reply-group">
@@ -176,7 +177,7 @@
             // 파일 유형 검증
             const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
             if (!allowedTypes.includes(file.type)) {
-                alert('유효한 파일 유형이 아닙니다. (jpeg, png, pdf만 허용)');
+                alert('유효한 파일 유형이 아닙니다. (jpeg, png, pdf, 엑셀파일만 허용)');
                 input.value = ''; // 선택한 파일 초기화
                 return;
             }
@@ -198,12 +199,15 @@
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', function(e) {
-                const pTag = button.previousElementSibling; //바로 이전 요소 삭제
-                const inputElement = pTag.previousElementSibling;       
-                inputElement.setAttribute('name','fileName');// name 추가로 form으로 전송하여 db에서 삭제하게 한다  
-                e.target.previousElementSibling.classList.toggle('shade');
 
-                pTag.remove();
+                const pTag = button.previousElementSibling; //바로 이전 요소 삭제   
+                // inputElement.setAttribute('name','fileName');// name 추가로 form으로 전송하여 db에서 삭제하게 한다  
+
+                const divElement = button.parentElement; // 현재 버튼이 속한 div 요소
+                const inputElement = divElement.previousElementSibling;
+                inputElement.setAttribute('name', 'fileName'); // 원하는 조작 수행
+
+                divElement.remove();
                 button.remove();
                 // const uploadPath = button.previousElementSibling.previousElementSibling.value;
                 // const fileName = button.previousElementSibling.previousElementSibling.previousElementSibling.value;

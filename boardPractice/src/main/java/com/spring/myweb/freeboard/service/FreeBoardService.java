@@ -24,6 +24,7 @@ import java.io.File;
 import com.spring.myweb.command.FreeBoardVO;
 import com.spring.myweb.command.UDFileVO;
 import com.spring.myweb.freeboard.mapper.IFreeBoardMapper;
+import com.spring.myweb.util.PageCreator;
 import com.spring.myweb.util.PageVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -153,6 +154,15 @@ public class FreeBoardService implements IFreeBoardService {
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
 		
+		int i = 0;
+		while (i < file.size()) {
+			if (file.get(i).isEmpty()) {
+				file.remove(i);
+			} else {
+				i++;
+			}
+		}
+		
 		//리스트로 들어오면 모든 파일 입력
 		for(MultipartFile f : file) {
 			String fileRealName = f.getOriginalFilename();
@@ -207,6 +217,15 @@ public class FreeBoardService implements IFreeBoardService {
 		//저장될 파일명은 uuid를 이용한 파일명으로 저장
 		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
 		
+		int i = 0;
+		while (i < file.size()) {
+			if (file.get(i).isEmpty()) {
+				file.remove(i);
+			} else {
+				i++;
+			}
+		}
+		
 		//리스트로 들어오면 모든 파일 입력
 		for(MultipartFile f : file) {
 			String fileRealName = f.getOriginalFilename();
@@ -246,60 +265,60 @@ public class FreeBoardService implements IFreeBoardService {
 		
 	}
 	
-	public void insertTempfile(int bno, List<MultipartFile> file) {
-
-		//날짜별로 폴더를 생성해서 관리할 예정.
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
-		String fileLoca = now.format(dtf);
-		
-		//기본 경로 C:/test/upload로 사용.
-		String uploadPath = "C:/test/upload/";
-		//폴더 없으면 새롭게 생성
-		File folder = new File(uploadPath + fileLoca);
-		if(!folder.exists()) folder.mkdirs();
-		
-		//저장될 파일명은 uuid를 이용한 파일명으로 저장
-		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
-		
-		//리스트로 들어오면 모든 파일 입력
-		for(MultipartFile f : file) {
-			String fileRealName = f.getOriginalFilename();
-			UUID uuid = UUID.randomUUID();
-			String uuids = uuid.toString().replaceAll("-", "");
-			
-			//확장자 추출
-			String fileExtension= fileRealName.substring(fileRealName.lastIndexOf("."));
-			
-			log.info("저장할 폴더 경로: "+ uploadPath);
-			log.info("실제 파일명: "+ fileRealName);
-			log.info("폴더명: "+ fileLoca);
-			log.info("확장자: "+ fileExtension);
-			log.info("고유랜덤문자: "+ uuids);
-			
-			String fileName = uuids + fileExtension;
-			log.info("변경해서 저장할 파일명: "+ fileName);
-			
-			//업로드한 파일을 지정한 로컬 경로로 전송
-			File saveFile = new File(uploadPath + fileLoca + "/" + fileName);
-			try {
-				f.transferTo(saveFile);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-			
-			UDFileVO vo = new UDFileVO();
-			vo.setBno(bno);
-			vo.setUploadPath(uploadPath);
-			vo.setFileLoca(fileLoca);
-			vo.setFileName(fileName);
-			vo.setFileRealName(fileRealName);
-			
-			mapper.insertTempfile(vo);
-		}
-		
-	}
+//	public void insertTempfile(int bno, List<MultipartFile> file) {
+//
+//		//날짜별로 폴더를 생성해서 관리할 예정.
+//		LocalDateTime now = LocalDateTime.now();
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+//		String fileLoca = now.format(dtf);
+//		
+//		//기본 경로 C:/test/upload로 사용.
+//		String uploadPath = "C:/test/upload/";
+//		//폴더 없으면 새롭게 생성
+//		File folder = new File(uploadPath + fileLoca);
+//		if(!folder.exists()) folder.mkdirs();
+//		
+//		//저장될 파일명은 uuid를 이용한 파일명으로 저장
+//		//uuid가 제공하는 랜덤 문자열에 -을 제거해서 전부 사용.
+//		
+//		//리스트로 들어오면 모든 파일 입력
+//		for(MultipartFile f : file) {
+//			String fileRealName = f.getOriginalFilename();
+//			UUID uuid = UUID.randomUUID();
+//			String uuids = uuid.toString().replaceAll("-", "");
+//			
+//			//확장자 추출
+//			String fileExtension= fileRealName.substring(fileRealName.lastIndexOf("."));
+//			
+//			log.info("저장할 폴더 경로: "+ uploadPath);
+//			log.info("실제 파일명: "+ fileRealName);
+//			log.info("폴더명: "+ fileLoca);
+//			log.info("확장자: "+ fileExtension);
+//			log.info("고유랜덤문자: "+ uuids);
+//			
+//			String fileName = uuids + fileExtension;
+//			log.info("변경해서 저장할 파일명: "+ fileName);
+//			
+//			//업로드한 파일을 지정한 로컬 경로로 전송
+//			File saveFile = new File(uploadPath + fileLoca + "/" + fileName);
+//			try {
+//				f.transferTo(saveFile);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} 
+//			
+//			UDFileVO vo = new UDFileVO();
+//			vo.setBno(bno);
+//			vo.setUploadPath(uploadPath);
+//			vo.setFileLoca(fileLoca);
+//			vo.setFileName(fileName);
+//			vo.setFileRealName(fileRealName);
+//			
+//			mapper.insertTempfile(vo);
+//		}
+//		
+//	}
 	
 //	@Override
 //	public void deleteFile(UDFileVO vo, List<MultipartFile> file) {
@@ -314,9 +333,9 @@ public class FreeBoardService implements IFreeBoardService {
 		mapper.deleteFile(fileName);
 	}
 			
-	void deleteTempfile(int bno) {
-		mapper.deleteTempfile(bno);
-	}
+//	void deleteTempfile(int bno) {
+//		mapper.deleteTempfile(bno);
+//	}
 	
 	@Override
 	public List<UDFileVO> viewfile(int bno) {
@@ -355,17 +374,18 @@ public class FreeBoardService implements IFreeBoardService {
 		}
 
 	@Override
-	public void getExcel(FreeBoardVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List<FreeBoardVO> list = mapper.getExcel();
+	public void getExcel(PageVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<FreeBoardVO> list = mapper.getList(vo);
+		
+		PageCreator pc = new PageCreator(vo, getTotal(vo));
+		int count = pc.getArticleTotalCount() - ((vo.getPageNum()-1) * vo.getCpp());
 		  
 		  SXSSFWorkbook wb = new SXSSFWorkbook();
 		  Sheet sheet = wb.createSheet();
 		  sheet.setColumnWidth((short) 0, (short) 2000);
-		  sheet.setColumnWidth((short) 1, (short) 2000);
-		  sheet.setColumnWidth((short) 2, (short) 8000);
-		  sheet.setColumnWidth((short) 3, (short) 8000);
-		  sheet.setColumnWidth((short) 4, (short) 3000);
-		  sheet.setColumnWidth((short) 5, (short) 3000);
+		  sheet.setColumnWidth((short) 1, (short) 8000);
+		  sheet.setColumnWidth((short) 2, (short) 3000);
+		  sheet.setColumnWidth((short) 3, (short) 3000);
 		  
 		  Row row = sheet.createRow(0);
 		  Cell cell = null;
@@ -374,7 +394,7 @@ public class FreeBoardService implements IFreeBoardService {
 		  cell = row.createCell(0);
 		  cell.setCellValue("게시글 리스트");
 		  setHeaderCS(cs, font, cell);
-		  sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 5));
+		  sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 3));
 		  
 		  row = sheet.createRow(1);
 		  cell = null;
@@ -382,27 +402,19 @@ public class FreeBoardService implements IFreeBoardService {
 		  font = wb.createFont();
 		  
 		  cell = row.createCell(0);
-		  cell.setCellValue("최신순");
-		  setHeaderCS(cs, font, cell);
-		  
-		  cell = row.createCell(1);
-		  cell.setCellValue("글번호");
+		  cell.setCellValue("번호");
 		  setHeaderCS(cs, font, cell);
 		 
-		  cell = row.createCell(2);
+		  cell = row.createCell(1);
 		  cell.setCellValue("제목");
 		  setHeaderCS(cs, font, cell);
 		  
-		  cell = row.createCell(3);
-		  cell.setCellValue("내용");
-		  setHeaderCS(cs, font, cell);
-		  
-		  cell = row.createCell(4);
+		  cell = row.createCell(2);
 		  cell.setCellValue("작성자");
 		  setHeaderCS(cs, font, cell);		  
 		  
-		  cell = row.createCell(5);
-		  cell.setCellValue("작성일");
+		  cell = row.createCell(3);
+		  cell.setCellValue("등록일");
 		  setHeaderCS(cs, font, cell);
 		 
 		  int i = 2;
@@ -417,26 +429,18 @@ public class FreeBoardService implements IFreeBoardService {
 		  font = wb.createFont();
 		  
 		  cell = row.createCell(0);
-		  cell.setCellValue(fvo.getRownum());
+		  cell.setCellValue(count--);
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(1);
-		  cell.setCellValue(fvo.getBno());
-		  setCmmnCS2(cs, cell);
-		  
-		  cell = row.createCell(2);
 		  cell.setCellValue(fvo.getTitle());
 		  setCmmnCS2(cs, cell);
 		  
-		  cell = row.createCell(3);
-		  cell.setCellValue(fvo.getContent());
-		  setCmmnCS2(cs, cell);
-		  
-		  cell = row.createCell(4);
+		  cell = row.createCell(2);
 		  cell.setCellValue(fvo.getWriter());
 		  setCmmnCS2(cs, cell);
 		  
-		  cell = row.createCell(5);
+		  cell = row.createCell(3);
 		  cell.setCellValue(createDate);
 		  setCmmnCS2(cs, cell);
 		  

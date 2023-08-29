@@ -137,10 +137,11 @@
 		Select * from freeboard where del = 0 order by origin_bno desc, group_ord asc
 	</select>-->
 	<select id="getExcel" resultType="board">
-	    SELECT *, @rownum := @rownum + 1 AS rownum
-	    FROM freeboard, (SELECT @rownum := 0) r
-	    WHERE del = 0
-	    ORDER BY origin_bno DESC, group_ord ASC;
+	    SELECT * from (select @rownum := @rownum + 1 AS rownum, f.*
+	    from freeboard f <include refid="search" />,
+	    (select @rownum := 0)tmp
+	    
+	    ORDER BY origin_bno asc, group_ord desc)sub order by sub.rownum desc
 	</select>
 	
 	

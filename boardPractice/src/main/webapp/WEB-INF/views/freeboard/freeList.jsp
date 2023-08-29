@@ -118,7 +118,7 @@
                     </ul>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/regist'">글쓰기</button>
                     <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/freeList'">목록</button>
-                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/downloadExcel'">엑셀파일다운</button>
+                    <button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/freeboard/downloadExcel?pageNum=${pc.paging.pageNum}&cpp=${pc.paging.cpp}&keyword=${pc.paging.keyword}&condition=${pc.paging.condition}'">엑셀파일다운</button>
                     </div>
 
                     <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">

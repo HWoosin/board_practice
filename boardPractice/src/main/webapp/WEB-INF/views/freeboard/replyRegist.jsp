@@ -161,7 +161,7 @@
             // 파일 유형 검증
             const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
             if (!allowedTypes.includes(file.type)) {
-                alert('유효한 파일 유형이 아닙니다. (jpeg, png, pdf만 허용)');
+                alert('유효한 파일 유형이 아닙니다. (jpeg, png, pdf, 엑셀파일만 허용)');
                 input.value = ''; // 선택한 파일 초기화
                 return;
             }

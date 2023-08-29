@@ -57,7 +57,7 @@ public interface IFreeBoardMapper {
 		void deleteReply(int bno);
 		
 		//엑셀받기
-		List<FreeBoardVO> getExcel();
+		List<FreeBoardVO> getExcel(PageVO vo);
 		
 		//파일 업로드
 		void insertfile(UDFileVO vo);
