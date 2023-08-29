@@ -160,10 +160,21 @@
 		select * from fileInfo where bno = #{bno}
 	</select>
 	
-	<!-- 업데이트 전 파일 모두 삭제-->
-	<delete id="deleteAllFiles">
-		Delete from fileInfo where bno = #{bno}
+	<!--파일 삭제-->
+	<delete id="deleteFile">
+		Delete from fileInfo where file_name = #{fileName}
 	</delete>
+	
+	<!-- 임시 삭제 
+	<insert id="insertTempfile">
+		INSERT INTO tempfileInfo
+		VALUES(#{bno},#{uploadPath}, #{fileRealName}, #{fileName}, #{fileLoca})
+	</insert>
+	
+	<delete id="deleteTempFiles">
+		Delete from tempfileInfo where bno = #{bno}
+	</delete>-->
+	
 </mapper>
 
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -105,9 +106,15 @@ public class FreeBoardController {
 	
 	//글 수정 처리
 	@PostMapping("/update")
-	public String update(FreeBoardVO vo, List<MultipartFile> file) {
-		service.update(vo,file);
+	public String update(FreeBoardVO vo, @RequestParam(value="file",required = false) List<MultipartFile> file, @RequestParam(value = "fileName", required = false)List<String> fileName) {
+		service.update(vo,file, fileName);
 		return "redirect:/freeboard/content/" + vo.getBno();
+	}
+	
+	//파일수정-임시삭제
+	@PostMapping("/updateFiles")
+	public void updateFiles(UDFileVO vo, List<MultipartFile> file) {
+//		service.deleteFile(vo,file);
 	}
 	
 	//글 논리적삭제 처리

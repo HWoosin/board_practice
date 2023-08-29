@@ -31,7 +31,7 @@ public interface IFreeBoardService {
 	boolean getContent(int bno, String pw);
 	
 	//수정
-	void update(FreeBoardVO vo, List<MultipartFile> file);
+	void update(FreeBoardVO vo, List<MultipartFile> file, List<String> fileName);
 	
 			
 	//답글없을경우 완전삭제
@@ -46,6 +46,10 @@ public interface IFreeBoardService {
 	
 	//파일업로드
 //	void insertfile(List<MultipartFile> file);
+		
+	
+	//파일삭제
+//	void deleteFile(UDFileVO vo, List<MultipartFile> file);
 
 	//가지고있는 파일 가져오기
 	List<UDFileVO> viewfile(int bno);
