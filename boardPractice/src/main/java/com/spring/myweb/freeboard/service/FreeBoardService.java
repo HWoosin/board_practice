@@ -420,8 +420,14 @@ public class FreeBoardService implements IFreeBoardService {
 		  int i = 2;
 		  for (FreeBoardVO fvo : list) {
 		      
-		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String createDate = df.format(fvo.getRegDate());
+			  String createDate = "";
+			  try {
+				  DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				  createDate = df.format(fvo.getRegDate());
+			  }
+			  catch(Exception e){
+				  createDate = "";
+			  }
 		 
 		  row = sheet.createRow(i);
 		  cell = null;
@@ -433,7 +439,13 @@ public class FreeBoardService implements IFreeBoardService {
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(1);
-		  cell.setCellValue(fvo.getTitle());
+		  if(fvo.getTitle().equals("")) {
+			  cell.setCellValue("삭제된 글입니다.");
+		  }
+		  else {
+			  cell.setCellValue(fvo.getTitle());
+		  }
+		  
 		  setCmmnCS2(cs, cell);
 		  
 		  cell = row.createCell(2);

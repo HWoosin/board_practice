@@ -96,7 +96,7 @@
 	
 	<!-- 답글이 있을경우 삭제법 List에 보여주기 위함-->
 	<update id="delfix">
-		Update freeboard set del = 1 where bno = #{bno}
+		Update freeboard set del = 1, title="", content="", writer="", reg_date=null, pw="" where bno = #{bno}
 	</update>
 	
 	<select id="checkChild" resultType = "java.lang.Integer">
